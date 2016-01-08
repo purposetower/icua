@@ -1,0 +1,87 @@
+Switch to using Left Ctrl with Right AltGr
+Ctrl-<x> and Ctrl-Shift-<x> are identical in terminals, use Ctrl-Shift for window manager
+
+
+Text:
+AltGr-c = copy
+AltGr-v = paste
+AltGr-x = cut
+AltGr-d = delete/yank line
+AltGr-z = undo
+AltGr-Shift-z = redo
+AltGr-a = select all
+AltGr-f = search -- regex
+AltGr-h = replace -- regex
+AltGr-s = save
+AltGr-Shift-s = save as
+
+
+Text Navigation:
+up = up
+down = down
+left = left
+right = right
+end = end of line
+home = start of line
+Alt-home = start of file
+Alt-end = end of file
+Alt-left = start of word
+Alt-right = end of word
+page down = page down
+page up = page up
+<above>-Shift = turn on selection
+
+Code:
+AltGr-b = build -- send output
+AltGr-r = run -- send output
+AltGr-Shift-r = debug -- send output
+
+AltGr-l = show docs - overlay
+AltGr-; = go to definition --- open in window manager?
+AltGr-' = find usage --- overlay then open in window manager?
+
+simply select = highlight in file
+AltGr-p = format with optional selecting
+AltGr-o = organise imports
+AltGr-space = content assist - overlay menu  ????? even needed?
+AltGr-/ = comment out / in
+
+AltGr-r = code aware rename
+ = code aware move ???? drag
+
+Debug:
+F10 = show execution point
+F7 = step into line
+F8 = step over line
+F8-Shift = step out
+F9 = resume from breakpoint
+AltGr-. = toggle breakpoint
+AltGr-.-Shift = toggle breakpointS
+
+
+
+File Navigation:
+AltGr-f = search -- regex
+AltGr-h = replace -- regex
+AltGr-o = open --- open in window manager?
+space = expand/collapse directory
+<Letter Navigation> = move to folder directory when start typing name
+
+
+
+Window Manager:
+Ctrl-n = new followed by type eg Ctrl-n -> menu -> t for terminal, e for editor
+Ctrl-Alt-left = left
+Ctrl-Alt-right = right
+Ctrl-Shift-left = send app left
+Ctrl-Shift-right = send app right
+Esc = close --- close in window manager?
+Ctrl-tab = moving focus
+
+
+
+Terminal:
+Ctrl-l = clear screen
+Ctrl-c = kill running process
+Ctrl-d = close shell
+Tab = completion
