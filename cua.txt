@@ -1,19 +1,21 @@
-Switch to using Left Ctrl with Right AltGr
-Ctrl-<x> and Ctrl-Shift-<x> are identical in terminals, use Ctrl-Shift for window manager
+Switch from Ctrl to Alt/AltGr
+For text editor map Ctrl to Alt/AltGr
+
+Ctrl-<x> and Ctrl-Shift-<x> are identical in terminals, use Ctrl-Shift and Ctrl-Alt for window manager
 
 
 Text:
-AltGr-c = copy
-AltGr-v = paste
-AltGr-x = cut
-AltGr-d = delete/yank line
-AltGr-z = undo
-AltGr-Shift-z = redo
-AltGr-a = select all
-AltGr-f = search -- regex
-AltGr-h = replace -- regex
-AltGr-s = save
-AltGr-Shift-s = save as
+Alt-c = copy
+Alt-v = paste
+Alt-x = cut
+Alt-d = delete/yank line
+Alt-z = undo
+Alt-Shift-z = redo
+Alt-a = select all
+Alt-f = search with regex
+Alt-h = replace with regex
+Alt-s = save
+Alt-Shift-s = save as
 
 
 Text Navigation:
@@ -32,52 +34,52 @@ page up = page up
 <above>-Shift = turn on selection
 
 Code:
-AltGr-b = build -- send output
-AltGr-r = run -- send output
-AltGr-Shift-r = debug -- send output
+F1 = build
+F2 = run
+F3 = debug
 
-AltGr-l = show docs - overlay
-AltGr-; = go to definition --- open in window manager?
-AltGr-' = find usage --- overlay then open in window manager?
+Alt-j = show docs
+Alt-k = find usage
+Alt-l = go to definition
+Alt-; = go to implementation
 
-simply select = highlight in file
-AltGr-p = format with optional selecting
-AltGr-o = organise imports
-AltGr-space = content assist - overlay menu  ????? even needed?
-AltGr-/ = comment out / in
 
-AltGr-r = code aware rename
+select will highlight in file
+Alt-p = format with optional selecting
+Alt-o = organise imports
+Alt-space = content assist
+Alt-/ = comment out / in
+
+Alt-r = code aware rename
  = code aware move ???? drag
 
 Debug:
-F10 = show execution point
+F4 = show execution point
+F5 = toggle breakpoint
+F6 = toggle breakpointS
 F7 = step into line
 F8 = step over line
-F8-Shift = step out
-F9 = resume from breakpoint
-AltGr-. = toggle breakpoint
-AltGr-.-Shift = toggle breakpointS
+F9 = step out
+F10 = resume from breakpoint
 
 
 
 File Navigation:
-AltGr-f = search -- regex
-AltGr-h = replace -- regex
-AltGr-o = open --- open in window manager?
+Alt-f = search with regex
+Alt-h = replace with regex
+Alt-o = open
 space = expand/collapse directory
 <Letter Navigation> = move to folder directory when start typing name
 
 
-
 Window Manager:
-Ctrl-n = new followed by type eg Ctrl-n -> menu -> t for terminal, e for editor
+Ctrl-Alt-n = new followed by type eg Ctrl-n -> menu -> t for terminal, e for editor
 Ctrl-Alt-left = left
 Ctrl-Alt-right = right
 Ctrl-Shift-left = send app left
 Ctrl-Shift-right = send app right
 Esc = close --- close in window manager?
-Ctrl-tab = moving focus
-
+Alt-tab = moving focus
 
 
 Terminal:
