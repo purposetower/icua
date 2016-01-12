@@ -1,20 +1,24 @@
 Switch from Ctrl to Alt/AltGr
-For text editor map Ctrl to Alt/AltGr
+For text editor map Alt/AltGr as same key
 
-Ctrl-<x> and Ctrl-Shift-<x> are identical in terminals, use Ctrl-Shift and Ctrl-Alt for window manager
+Ctrl-<x> and Ctrl-Shift-<x> are identical in terminals
+
+Shift page up/down doesnt work, captured by xterm
+
+User Super/Windows key for window manager as not recognised by terminal
 
 
 Text:
-Alt-c = copy
-Alt-v = paste
-Alt-x = cut
+Alt-c(backward comp Ctrl-c) = copy
+Alt-v(backward comp Ctrl-v) = paste
+Alt-x(backward comp Ctrl-x) = cut
 Alt-d = delete/yank line
-Alt-z = undo
+Alt-z(backward comp Ctrl-z) = undo
 Alt-Shift-z = redo
-Alt-a = select all
+Alt-a(backward comp Ctrl-a) = select all
 Alt-f = search with regex
 Alt-h = replace with regex
-Alt-s = save
+Alt-s(backward comp Ctrl-s) = save
 Alt-Shift-s = save as
 
 
@@ -31,7 +35,7 @@ Alt-left = start of word
 Alt-right = end of word
 page down = page down
 page up = page up
-<above>-Shift = turn on selection
+Ctrl-<above>(backward comp Shift<above>) = turn on selection(Shift page up doesnt work, captured by xterm)
 
 Code:
 F1 = build
@@ -63,7 +67,6 @@ F9 = step out
 F10 = resume from breakpoint
 
 
-
 File Navigation:
 Alt-f = search with regex
 Alt-h = replace with regex
@@ -73,13 +76,13 @@ space = expand/collapse directory
 
 
 Window Manager:
-Ctrl-Alt-n = new followed by type eg Ctrl-n -> menu -> t for terminal, e for editor
-Ctrl-Alt-left = left
-Ctrl-Alt-right = right
-Ctrl-Shift-left = send app left
-Ctrl-Shift-right = send app right
-Esc = close --- close in window manager?
-Alt-tab = moving focus
+Super-n = new followed by type eg Ctrl-n -> menu -> t for terminal, e for editor
+Super-left = left
+Super-right = right
+Super-Alt-left = send app left
+Super-Alt-right = send app right
+Super-Esc = close --- close in window manager?
+Super-tab = moving focus
 
 
 Terminal:
@@ -87,3 +90,6 @@ Ctrl-l = clear screen
 Ctrl-c = kill running process
 Ctrl-d = close shell
 Tab = completion
+Shift-page up = scroll down
+Shift-page up = scroll up
+Shift-insert = paste
