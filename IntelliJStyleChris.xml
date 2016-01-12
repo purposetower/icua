@@ -1,0 +1,13 @@
+<code_scheme name="IntelliJStyleChris">
+  <option name="GENERATE_FINAL_LOCALS" value="true" />
+  <option name="GENERATE_FINAL_PARAMETERS" value="true" />
+  <XML>
+    <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
+  </XML>
+  <codeStyleSettings language="JAVA">
+    <option name="RIGHT_MARGIN" value="80" />
+    <arrangement>
+      <rules />
+    </arrangement>
+  </codeStyleSettings>
+</code_scheme>
