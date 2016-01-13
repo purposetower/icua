@@ -1,4 +1,4 @@
-
+<keymap version="1" name="KeyMapChris">
   <!-- Default editing keys -->
   <action id="EditorEnter">
     <keyboard-shortcut first-keystroke="enter" />
@@ -218,3 +218,4 @@
   <action id="Resume">
     <keyboard-shortcut first-keystroke="f10" />
   </action>
+</keymap>
