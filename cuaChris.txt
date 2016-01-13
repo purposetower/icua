@@ -1,5 +1,4 @@
-Switch from Ctrl to Alt/AltGr
-For text editor map Alt/AltGr as same key
+Duplicate Ctrl mappings with AltGr
 
 Ctrl-<x> and Ctrl-Shift-<x> are identical in terminals
 
@@ -7,19 +6,21 @@ Shift page up/down doesnt work, captured by xterm
 
 User Super/Windows key for window manager as not recognised by terminal
 
+Some Alt key clashes in intellij, tries to open menu up sigh
+
 
 Text:
-Alt-c(backward comp Ctrl-c) = copy
-Alt-v(backward comp Ctrl-v) = paste
-Alt-x(backward comp Ctrl-x) = cut
-Alt-d = delete/yank line
-Alt-z(backward comp Ctrl-z) = undo
-Alt-Shift-z = redo
-Alt-a(backward comp Ctrl-a) = select all
-Alt-f = search with regex
-Alt-h = replace with regex
-Alt-s(backward comp Ctrl-s) = save
-Alt-Shift-s = save as
+Ctrl/AltGr-c = copy
+Ctrl/AltGr-v = paste
+Ctrl/AltGr-x = cut
+Ctrl/AltGr-d = delete/yank line
+Ctrl/AltGr-z = undo
+Ctrl/AltGr-Alt-z = redo
+Ctrl/AltGr-a = select all
+Ctrl/AltGr-f = search with regex
+Ctrl/AltGr-h = replace with regex
+Ctrl/AltGr-s = save
+Ctrl/AltGr-Alt-s = save as
 
 
 Text Navigation:
@@ -29,33 +30,34 @@ left = left
 right = right
 end = end of line
 home = start of line
-Alt-home = start of file
-Alt-end = end of file
-Alt-left = start of word
-Alt-right = end of word
+Ctrl-home = start of file
+Ctrl-end = end of file
+Ctrl-left = start of word
+Ctrl-right = end of word
 page down = page down
 page up = page up
-Ctrl-<above>(backward comp Shift<above>) = turn on selection(Shift page up doesnt work, captured by xterm)
+Alt-<above> = turn on selection
 
 Code:
-F1 = build
-F2 = run
-F3 = debug
-
-Alt-j = show docs
-Alt-k = find usage
-Alt-l = go to definition
-Alt-; = go to implementation
+Alt-j = find usage
+Alt-k = go to definition
+Alt-l = go to implementation
+Alt-; = show docs
 
 
 select will highlight in file
 Alt-p = format with optional selecting
 Alt-o = organise imports
 Alt-space = content assist
+Alt-enter = code fix suggestion
 Alt-/ = comment out / in
 
-Alt-r = code aware rename
+Ctrl/AltGr-r = code aware rename
  = code aware move ???? drag
+
+F1 = build
+F2 = run
+F3 = debug
 
 Debug:
 F4 = show execution point
@@ -68,15 +70,15 @@ F10 = resume from breakpoint
 
 
 File Navigation:
-Alt-f = search with regex
-Alt-h = replace with regex
-Alt-o = open
+Ctrl/AltGr-f = search with regex
+Ctrl/AltGr-h = replace with regex
+Ctrl/AltGr-o = open
 space = expand/collapse directory
 <Letter Navigation> = move to folder directory when start typing name
 
 
 Window Manager:
-Super-n = new followed by type eg Ctrl-n -> menu -> t for terminal, e for editor
+Super-n = new followed by type eg -> menu -> t for terminal, e for editor
 Super-left = left
 Super-right = right
 Super-Alt-left = send app left
@@ -90,6 +92,17 @@ Ctrl-l = clear screen
 Ctrl-c = kill running process
 Ctrl-d = close shell
 Tab = completion
-Shift-page up = scroll down
-Shift-page up = scroll up
-Shift-insert = paste
+
+!! Disable Shift page up/down capturing by xterm !!
+Ctrl up = scroll up
+Ctrl down = scroll down
+Ctrl-page up = scroll up page
+Ctrl-page down = scroll down page
+Ctrl-home = top of terminal
+Ctrl-end = bottom of terminal
+
+Ctrl-?? = copy current line
+Ctrl-insert = paste
+
+
+

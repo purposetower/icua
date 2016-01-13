@@ -1,4 +1,5 @@
 
+  <!-- Default editing keys -->
   <action id="EditorEnter">
     <keyboard-shortcut first-keystroke="enter" />
   </action>
@@ -8,43 +9,69 @@
   <action id="$Delete">
     <keyboard-shortcut first-keystroke="delete" />
   </action>
+  <action id="EditorTab">
+    <keyboard-shortcut first-keystroke="tab" />
+  </action>
+  <action id="EditorChooseLookupItem">
+    <keyboard-shortcut first-keystroke="enter" />
+  </action>
+  <action id="EditorEscape">
+    <keyboard-shortcut first-keystroke="escape" />
+  </action>
 
+  <!-- Most common -->
   <action id="$Copy">
-    <keyboard-shortcut first-keystroke="ctrl c" />
+    <keyboard-shortcut first-keystroke="control c" />
+    <keyboard-shortcut first-keystroke="altGraph c" />
   </action>
   <action id="$Paste">
-    <keyboard-shortcut first-keystroke="ctrl v" />
+    <keyboard-shortcut first-keystroke="control v" />
+    <keyboard-shortcut first-keystroke="altGraph v" />
   </action>
   <action id="$Cut">
-    <keyboard-shortcut first-keystroke="ctrl x" />
+    <keyboard-shortcut first-keystroke="control x" />
+    <keyboard-shortcut first-keystroke="altGraph x" />
   </action>
   
-  <action id="EditorDeleteLine">
-    <keyboard-shortcut first-keystroke="ctrl d" />
-  </action>
-
   <action id="$SelectAll">
-    <keyboard-shortcut first-keystroke="ctrl a" />
+    <keyboard-shortcut first-keystroke="control a" />
+    <keyboard-shortcut first-keystroke="altGraph a" />
   </action>
   
   <action id="$Undo">
-    <keyboard-shortcut first-keystroke="ctrl z" />
+    <keyboard-shortcut first-keystroke="control z" />
+    <keyboard-shortcut first-keystroke="altGraph z" />
   </action>
   <action id="$Redo">
-    <keyboard-shortcut first-keystroke="shift ctrl z" />
+    <keyboard-shortcut first-keystroke="control alt z" />
+    <keyboard-shortcut first-keystroke="altGraph alt z" />
   </action>
   
+  <action id="EditorDeleteLine">
+    <keyboard-shortcut first-keystroke="control d" />
+    <keyboard-shortcut first-keystroke="altGraph d" />
+  </action>
+
+  <!-- Search -->
   <action id="Find">
-    <keyboard-shortcut first-keystroke="ctrl f" />
+    <keyboard-shortcut first-keystroke="control f" />
+    <keyboard-shortcut first-keystroke="altGraph f" />
   </action>
   <action id="Replace">
-    <keyboard-shortcut first-keystroke="ctrl h" />
+    <keyboard-shortcut first-keystroke="control h" />
+    <keyboard-shortcut first-keystroke="altGraph h" />
   </action>
   
   <action id="FindInPath">
-    <keyboard-shortcut first-keystroke="shift ctrl f" />
+    <keyboard-shortcut first-keystroke="control alt f" />
+    <keyboard-shortcut first-keystroke="altGraph alt f" />
+  </action>
+  <action id="ReplaceInPath">
+    <keyboard-shortcut first-keystroke="control alt h" />
+    <keyboard-shortcut first-keystroke="altGraph alt h" />
   </action>
   
+  <!-- Movement -->
   <action id="EditorUp">
     <keyboard-shortcut first-keystroke="up" />
   </action>
@@ -57,23 +84,137 @@
   <action id="EditorRight">
     <keyboard-shortcut first-keystroke="right" />
   </action>
-  
-  <action id="FindUsages">
-    <keyboard-shortcut first-keystroke="alt f7" />
+  <action id="EditorLineStart">
+    <keyboard-shortcut first-keystroke="home" />
   </action>
-  
+  <action id="EditorLineEnd">
+    <keyboard-shortcut first-keystroke="end" />
+  </action>
+  <action id="EditorPageDown">
+    <keyboard-shortcut first-keystroke="page_down" />
+  </action>
+  <action id="EditorPageUp">
+    <keyboard-shortcut first-keystroke="page_up" />
+  </action>
+  <action id="EditorTextStart">
+    <keyboard-shortcut first-keystroke="control home" />
+  </action>
+  <action id="EditorTextEnd">
+    <keyboard-shortcut first-keystroke="control end" />
+  </action>
+  <action id="EditorNextWord">
+    <keyboard-shortcut first-keystroke="control right" />
+  </action>
+  <action id="EditorPreviousWord">
+    <keyboard-shortcut first-keystroke="control left" />
+  </action>
+  <!-- Movement selection -->
+  <action id="EditorUpWithSelection">
+    <keyboard-shortcut first-keystroke="control up" />
+  </action>
+  <action id="EditorDownWithSelection">
+    <keyboard-shortcut first-keystroke="control down" />
+  </action>
+  <action id="EditorLeftWithSelection">
+    <keyboard-shortcut first-keystroke="control left" />
+  </action>
+  <action id="EditorRightWithSelection">
+    <keyboard-shortcut first-keystroke="control right" />
+  </action>
+  <action id="EditorLineStartWithSelection">
+    <keyboard-shortcut first-keystroke="control home" />
+  </action>
+  <action id="EditorLineEndWithSelection">
+    <keyboard-shortcut first-keystroke="control end" />
+  </action>
+  <action id="EditorPageDownWithSelection">
+    <keyboard-shortcut first-keystroke="control page_down" />
+  </action>
+  <action id="EditorPageUpWithSelection">
+    <keyboard-shortcut first-keystroke="control page_up" />
+  </action>
+  <action id="EditorNextWordWithSelection">
+    <keyboard-shortcut first-keystroke="control alt right" />
+  </action>
+  <action id="EditorPreviousWordWithSelection">
+    <keyboard-shortcut first-keystroke="control alt left" />
+  </action>
+  <action id="EditorTextStartWithSelection">
+    <keyboard-shortcut first-keystroke="control alt home" />
+  </action>
+  <action id="EditorTextEndWithSelection">
+    <keyboard-shortcut first-keystroke="control alt end" />
+  </action>
+
+
+  <!-- Java code aware -->
+  <action id="ShowUsages">
+    <keyboard-shortcut first-keystroke="alt j" />
+  </action>
   <action id="GotoDeclaration">
-    <keyboard-shortcut first-keystroke="ctrl b" />
-    <mouse-shortcut keystroke="control button1" />
+    <keyboard-shortcut first-keystroke="alt k" />
   </action>
   <action id="GotoImplementation">
-    <keyboard-shortcut first-keystroke="ctrl alt b" />
-    <mouse-shortcut keystroke="control alt button1" />
+    <keyboard-shortcut first-keystroke="alt l" />
+  </action>
+  <action id="QuickJavaDoc">
+    <keyboard-shortcut first-keystroke="alt ;"/>
   </action>
   
   <action id="ReformatCode">
-    <keyboard-shortcut first-keystroke="ctrl alt l" />
+    <keyboard-shortcut first-keystroke="alt p" />
   </action>
   <action id="OptimizeImports">
-    <keyboard-shortcut first-keystroke="ctrl alt o" />
+    <keyboard-shortcut first-keystroke="alt o" />
+  </action>
+
+  <action id="CodeCompletion">
+    <keyboard-shortcut first-keystroke="alt space" />
+  </action>
+  <action id="ShowIntentionActions">
+    <keyboard-shortcut first-keystroke="alt enter" />
+  </action>
+  
+  <action id="CommentByLineComment">
+    <keyboard-shortcut first-keystroke="alt slash" />
+  </action>
+  <action id="RenameElement">
+    <keyboard-shortcut first-keystroke="control r" />
+    <keyboard-shortcut first-keystroke="altGraph r" />
+  </action>
+  
+  <!-- To action -->
+  <action id="Compile">
+    <keyboard-shortcut first-keystroke="f1" />
+  </action>
+  <action id="Run">
+    <keyboard-shortcut first-keystroke="f2"/>
+  </action>
+  <action id="Debug">
+    <keyboard-shortcut first-keystroke="f3"/>
+  </action>
+  
+  <!-- Debug -->
+  <action id="ShowExecutionPoint">
+    <keyboard-shortcut first-keystroke="f4" />
+  </action>
+  
+  <action id="ToggleLineBreakpoint">
+    <keyboard-shortcut first-keystroke="f5" />
+  </action>
+  <action id="ToggleBreakpointEnabled">
+    <keyboard-shortcut first-keystroke="f6" />
+  </action>
+  
+  <action id="StepInto">
+    <keyboard-shortcut first-keystroke="f7" />
+  </action>
+  <action id="StepOver">
+    <keyboard-shortcut first-keystroke="f8" />
+  </action>
+  <action id="StepOut">
+    <keyboard-shortcut first-keystroke="f9" />
+  </action>
+  <action id="Resume">
+    <keyboard-shortcut first-keystroke="f10" />
   </action>
