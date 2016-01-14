@@ -110,28 +110,28 @@
   </action>
   <!-- Movement selection -->
   <action id="EditorUpWithSelection">
-    <keyboard-shortcut first-keystroke="control up" />
+    <keyboard-shortcut first-keystroke="alt up" />
   </action>
   <action id="EditorDownWithSelection">
-    <keyboard-shortcut first-keystroke="control down" />
+    <keyboard-shortcut first-keystroke="alt down" />
   </action>
   <action id="EditorLeftWithSelection">
-    <keyboard-shortcut first-keystroke="control left" />
+    <keyboard-shortcut first-keystroke="alt left" />
   </action>
   <action id="EditorRightWithSelection">
-    <keyboard-shortcut first-keystroke="control right" />
+    <keyboard-shortcut first-keystroke="alt right" />
   </action>
   <action id="EditorLineStartWithSelection">
-    <keyboard-shortcut first-keystroke="control home" />
+    <keyboard-shortcut first-keystroke="alt home" />
   </action>
   <action id="EditorLineEndWithSelection">
-    <keyboard-shortcut first-keystroke="control end" />
+    <keyboard-shortcut first-keystroke="alt end" />
   </action>
   <action id="EditorPageDownWithSelection">
-    <keyboard-shortcut first-keystroke="control page_down" />
+    <keyboard-shortcut first-keystroke="alt page_down" />
   </action>
   <action id="EditorPageUpWithSelection">
-    <keyboard-shortcut first-keystroke="control page_up" />
+    <keyboard-shortcut first-keystroke="alt page_up" />
   </action>
   <action id="EditorNextWordWithSelection">
     <keyboard-shortcut first-keystroke="control alt right" />
@@ -160,9 +160,12 @@
   <action id="QuickJavaDoc">
     <keyboard-shortcut first-keystroke="alt ;"/>
   </action>
-  
+  <action id="GotoClass">
+    <keyboard-shortcut first-keystroke="alt m"/>
+  </action>
+
   <action id="ReformatCode">
-    <keyboard-shortcut first-keystroke="alt p" />
+    <keyboard-shortcut first-keystroke="alt i" />
   </action>
   <action id="OptimizeImports">
     <keyboard-shortcut first-keystroke="alt o" />

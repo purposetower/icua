@@ -43,10 +43,10 @@ Alt-j = find usage
 Alt-k = go to definition
 Alt-l = go to implementation
 Alt-; = show docs
-
+Alt-m = goto(class, file, module etc)
 
 select will highlight in file
-Alt-p = format with optional selecting
+Alt-i = format with optional selecting
 Alt-o = organise imports
 Alt-space = content assist
 Alt-enter = code fix suggestion
