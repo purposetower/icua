@@ -1,0 +1,39 @@
+Editor {
+cursor position width height,
+buffer [Lines,Lines]
+}
+
+display takes cursor pos and buffer and draws 
+- no wrap and soft wrap
+
+----
+
+memory size...? 1024
+-- how much input at a time
+
+
+mm output buffering, set a max, but usually manage with flush
+--
+
+keep a buffer of text, redraw whole screen on every edit
+optimisation only redraw 
+
+--
+
+open file
+large files
+--
+
+profile
+
+memory use
+
+test
+
+--
+
+search
+
+hidden char view
+
+
