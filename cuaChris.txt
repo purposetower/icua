@@ -42,7 +42,7 @@ Code:
 Alt-j = find usage
 Alt-k = go to definition
 Alt-l = go to implementation
-Alt-; = show docs
+Alt-;(semicolon) = show docs
 Alt-m = goto(class, file, module etc)
 
 select will highlight in file

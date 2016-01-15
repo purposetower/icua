@@ -158,7 +158,7 @@
     <keyboard-shortcut first-keystroke="alt l" />
   </action>
   <action id="QuickJavaDoc">
-    <keyboard-shortcut first-keystroke="alt ;"/>
+    <keyboard-shortcut first-keystroke="alt semicolon"/>
   </action>
   <action id="GotoClass">
     <keyboard-shortcut first-keystroke="alt m"/>
