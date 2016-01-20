@@ -30,13 +30,13 @@ left = left
 right = right
 end = end of line
 home = start of line
-Ctrl-home = start of file
-Ctrl-end = end of file
-Ctrl-left = start of word
-Ctrl-right = end of word
+Alt-home = start of file
+Alt-end = end of file
+Alt-left = start of word
+Alt-right = end of word
 page down = page down
 page up = page up
-Alt-<above> = turn on selection
+Shift-<above> = turn on selection
 
 Code:
 Alt-j = find usage
