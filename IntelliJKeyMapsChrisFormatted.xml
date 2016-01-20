@@ -1,4 +1,4 @@
-<keymap version="1" name="IntelliJKeyMapChris">
+<keymap version="1" name="IntelliJKeyMapsChris">
   <!-- Default editing keys -->
   <action id="EditorEnter">
     <keyboard-shortcut first-keystroke="enter" />
