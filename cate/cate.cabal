@@ -17,5 +17,5 @@ executable cate
   hs-source-dirs: src
   other-modules: Cate.TerminalSize       
   -- other-extensions:    
-  build-depends:       base >=4.6 && <4.7, unix >=2.6 && <2.7
+  build-depends:       base, unix
   default-language:    Haskell2010
