@@ -2,9 +2,8 @@ Map two keys next to space bar, usually: <SPECIAL>
 Left Super and Right Super or
 Left Windows and Right Windows or
 Left Cmd and Right Cmd or
-Left Alt and Right Alt
-
-Duplicate mappings of above to left Ctrl
+Left Alt and Right Alt or
+Left Ctrl and Right Ctrl
 
 === Notes
 

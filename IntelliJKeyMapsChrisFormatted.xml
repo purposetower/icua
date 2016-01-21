@@ -1,4 +1,7 @@
 <keymap version="1" name="IntelliJKeyMapsChris">
+
+  <!-- Replace <SPECIAL_LEFT> and <SPECIAL_RIGHT> -->
+
   <!-- Default editing keys -->
   <action id="EditorEnter">
     <keyboard-shortcut first-keystroke="enter" />
@@ -21,54 +24,54 @@
 
   <!-- Most common -->
   <action id="$Copy">
-    <keyboard-shortcut first-keystroke="control c" />
-    <keyboard-shortcut first-keystroke="altGraph c" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> c" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> c" />
   </action>
   <action id="$Paste">
-    <keyboard-shortcut first-keystroke="control v" />
-    <keyboard-shortcut first-keystroke="altGraph v" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> v" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> v" />
   </action>
   <action id="$Cut">
-    <keyboard-shortcut first-keystroke="control x" />
-    <keyboard-shortcut first-keystroke="altGraph x" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> x" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> x" />
   </action>
   
   <action id="$SelectAll">
-    <keyboard-shortcut first-keystroke="control a" />
-    <keyboard-shortcut first-keystroke="altGraph a" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> a" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> a" />
   </action>
   
   <action id="$Undo">
-    <keyboard-shortcut first-keystroke="control z" />
-    <keyboard-shortcut first-keystroke="altGraph z" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> z" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> z" />
   </action>
   <action id="$Redo">
-    <keyboard-shortcut first-keystroke="control alt z" />
-    <keyboard-shortcut first-keystroke="altGraph alt z" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> shift z" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> shift z" />
   </action>
   
   <action id="EditorDeleteLine">
-    <keyboard-shortcut first-keystroke="control d" />
-    <keyboard-shortcut first-keystroke="altGraph d" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> d" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> d" />
   </action>
 
   <!-- Search -->
   <action id="Find">
-    <keyboard-shortcut first-keystroke="control f" />
-    <keyboard-shortcut first-keystroke="altGraph f" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> f" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> f" />
   </action>
   <action id="Replace">
-    <keyboard-shortcut first-keystroke="control h" />
-    <keyboard-shortcut first-keystroke="altGraph h" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> h" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> h" />
   </action>
   
   <action id="FindInPath">
-    <keyboard-shortcut first-keystroke="control alt f" />
-    <keyboard-shortcut first-keystroke="altGraph alt f" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> shift f" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> shift f" />
   </action>
   <action id="ReplaceInPath">
-    <keyboard-shortcut first-keystroke="control alt h" />
-    <keyboard-shortcut first-keystroke="altGraph alt h" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> shift h" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> shift h" />
   </action>
   
   <!-- Movement -->
@@ -97,16 +100,20 @@
     <keyboard-shortcut first-keystroke="page_up" />
   </action>
   <action id="EditorTextStart">
-    <keyboard-shortcut first-keystroke="alt home" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> home" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> home" />
   </action>
   <action id="EditorTextEnd">
-    <keyboard-shortcut first-keystroke="alt end" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> end" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> end" />
   </action>
   <action id="EditorNextWord">
-    <keyboard-shortcut first-keystroke="alt right" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> right" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> right" />
   </action>
   <action id="EditorPreviousWord">
-    <keyboard-shortcut first-keystroke="alt left" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> left" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> left" />
   </action>
   <!-- Movement selection -->
   <action id="EditorUpWithSelection">
@@ -133,57 +140,70 @@
   <action id="EditorPageUpWithSelection">
     <keyboard-shortcut first-keystroke="shift page_up" />
   </action>
-  <action id="EditorNextWordWithSelection">
-    <keyboard-shortcut first-keystroke="shift alt right" />
-  </action>
-  <action id="EditorPreviousWordWithSelection">
-    <keyboard-shortcut first-keystroke="shift alt left" />
-  </action>
   <action id="EditorTextStartWithSelection">
-    <keyboard-shortcut first-keystroke="shift alt home" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> shift home" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> shift home" />
   </action>
   <action id="EditorTextEndWithSelection">
-    <keyboard-shortcut first-keystroke="shift alt end" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> shift end" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> shift end" />
   </action>
-
+  <action id="EditorNextWordWithSelection">
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> shift right" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> shift right" />
+  </action>
+  <action id="EditorPreviousWordWithSelection">
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> shift left" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> shift left" />
+  </action>
 
   <!-- Java code aware -->
   <action id="ShowUsages">
-    <keyboard-shortcut first-keystroke="alt j" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> j" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> j" />
   </action>
   <action id="GotoDeclaration">
-    <keyboard-shortcut first-keystroke="alt k" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> k" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> k" />
   </action>
   <action id="GotoImplementation">
-    <keyboard-shortcut first-keystroke="alt l" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> l" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> l" />
   </action>
   <action id="QuickJavaDoc">
-    <keyboard-shortcut first-keystroke="alt semicolon"/>
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> semicolon"/>
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> semicolon" />
   </action>
   <action id="GotoClass">
-    <keyboard-shortcut first-keystroke="alt m"/>
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> m"/>
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> m" />
   </action>
 
   <action id="ReformatCode">
-    <keyboard-shortcut first-keystroke="alt i" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> i" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> i" />
   </action>
   <action id="OptimizeImports">
-    <keyboard-shortcut first-keystroke="alt o" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> o" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> o" />
   </action>
 
   <action id="CodeCompletion">
-    <keyboard-shortcut first-keystroke="alt space" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> space" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> space" />
   </action>
   <action id="ShowIntentionActions">
-    <keyboard-shortcut first-keystroke="alt enter" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> enter" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> enter" />
   </action>
   
   <action id="CommentByLineComment">
-    <keyboard-shortcut first-keystroke="alt slash" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> slash" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> slash" />
   </action>
   <action id="RenameElement">
-    <keyboard-shortcut first-keystroke="control r" />
-    <keyboard-shortcut first-keystroke="altGraph r" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> r" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> r" />
   </action>
   
   <!-- To action -->
