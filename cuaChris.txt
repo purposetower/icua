@@ -13,7 +13,7 @@ Shift page up/down doesnt work, captured by xterm, remap using .Xresources
 
 Super/Windows/Cmd key not recognised by terminal, remap using .Xresources
 
-Some Alt key clashes in intellij, tries to open menu up sigh
+Some Alt key clashes in intellij, tries to open menu, add disable-mnemonics="false"!!
 
 
 Text:
