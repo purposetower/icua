@@ -1,26 +1,34 @@
-Duplicate Ctrl mappings with AltGr
+Map two keys next to space bar, usually: <SPECIAL>
+Left Super and Right Super or
+Left Windows and Right Windows or
+Left Cmd and Right Cmd or
+Left Alt and Right Alt
 
-Ctrl-<x> and Ctrl-Shift-<x> are identical in terminals
+Duplicate mappings of above to left Ctrl
 
-Shift page up/down doesnt work, captured by xterm
+=== Notes
 
-User Super/Windows key for window manager as not recognised by terminal
+Ctrl-<x> and Ctrl-Shift-<x> are identical in terminals, remap using .Xresources
+
+Shift page up/down doesnt work, captured by xterm, remap using .Xresources
+
+Super/Windows/Cmd key not recognised by terminal, remap using .Xresources
 
 Some Alt key clashes in intellij, tries to open menu up sigh
 
 
 Text:
-Ctrl/AltGr-c = copy
-Ctrl/AltGr-v = paste
-Ctrl/AltGr-x = cut
-Ctrl/AltGr-d = delete/yank line
-Ctrl/AltGr-z = undo
-Ctrl/AltGr-Alt-z = redo
-Ctrl/AltGr-a = select all
-Ctrl/AltGr-f = search with regex
-Ctrl/AltGr-h = replace with regex
-Ctrl/AltGr-s = save
-Ctrl/AltGr-Alt-s = save as
+<SPECIAL>-c = copy
+<SPECIAL>-v = paste
+<SPECIAL>-x = cut
+<SPECIAL>-d = delete/yank line
+<SPECIAL>-z = undo
+<SPECIAL>-Shift-z = redo
+<SPECIAL>-a = select all
+<SPECIAL>-f = search with regex
+<SPECIAL>-h = replace with regex
+<SPECIAL>-s = save
+<SPECIAL>-Shift-s = save as
 
 
 Text Navigation:
@@ -30,29 +38,29 @@ left = left
 right = right
 end = end of line
 home = start of line
-Alt-home = start of file
-Alt-end = end of file
-Alt-left = start of word
-Alt-right = end of word
+<SPECIAL>-home = start of file
+<SPECIAL>-end = end of file
+<SPECIAL>-left = start of word
+<SPECIAL>-right = end of word
 page down = page down
 page up = page up
 Shift-<above> = turn on selection
 
 Code:
-Alt-j = find usage
-Alt-k = go to definition
-Alt-l = go to implementation
-Alt-;(semicolon) = show docs
-Alt-m = goto(class, file, module etc)
+<SPECIAL>-j = find usage
+<SPECIAL>-k = go to definition
+<SPECIAL>-l = go to implementation
+<SPECIAL>-;(semicolon) = show docs
+<SPECIAL>-m = goto(class, file, module etc)
 
 select will highlight in file
-Alt-i = format with optional selecting
-Alt-o = organise imports
-Alt-space = content assist
-Alt-enter = code fix suggestion
-Alt-/ = comment out / in
+<SPECIAL>-i = format with optional selecting
+<SPECIAL>-o = organise imports
+<SPECIAL>-space = content assist
+<SPECIAL>-enter = code fix suggestion
+<SPECIAL>-/ = comment out / in
 
-Ctrl/AltGr-r = code aware rename
+<SPECIAL>-r = code aware rename
  = code aware move ???? drag
 
 F1 = build
@@ -70,21 +78,21 @@ F10 = resume from breakpoint
 
 
 File Navigation:
-Ctrl/AltGr-f = search with regex
-Ctrl/AltGr-h = replace with regex
-Ctrl/AltGr-o = open
+<SPECIAL>-f = search with regex
+<SPECIAL>-h = replace with regex
+<SPECIAL>-o = open
 space = expand/collapse directory
 <Letter Navigation> = move to folder directory when start typing name
 
 
 Window Manager:
-Super-n = new followed by type eg -> menu -> t for terminal, e for editor
-Super-left = left
-Super-right = right
-Super-Alt-left = send app left
-Super-Alt-right = send app right
-Super-Esc = close --- close in window manager?
-Super-tab = moving focus
+Ctrl-o = open followed by type eg -> menu -> t for terminal, e for editor
+Ctrl-left = left
+Ctrl-right = right
+Ctrl-Alt-left = send app left
+Ctrl-Alt-right = send app right
+Ctrl-Esc = close --- close in window manager?
+Ctrl-tab = moving focus
 
 
 Terminal:
