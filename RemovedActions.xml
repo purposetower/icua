@@ -615,10 +615,6 @@
   <action id="NextTab">
     <keyboard-shortcut first-keystroke="alt right" />
   </action>
-  <action id="NextTemplateVariable">
-    <keyboard-shortcut first-keystroke="tab" />
-    <keyboard-shortcut first-keystroke="enter" />
-  </action>
 
   <action id="OverrideMethods">
     <keyboard-shortcut first-keystroke="ctrl o" />

@@ -22,6 +22,11 @@
   <action id="EditorEscape">
     <keyboard-shortcut first-keystroke="escape" />
   </action>
+  
+  <action id="NextTemplateVariable">
+    <keyboard-shortcut first-keystroke="tab" />
+    <keyboard-shortcut first-keystroke="enter" />
+  </action>
 
   <!-- Most common -->
   <action id="$Copy">
