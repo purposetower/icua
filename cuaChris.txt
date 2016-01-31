@@ -5,6 +5,9 @@ Left Cmd and Right Cmd or
 Left Alt and Right Alt or
 Left Ctrl and Right Ctrl
 
+Use key at far left for window manager: <ALTERNATIVE>
+Can be Ctrl or Fn or etc
+
 === Notes
 
 Ctrl-<x> and Ctrl-Shift-<x> are identical in terminals, remap using .Xresources
@@ -85,31 +88,31 @@ space = expand/collapse directory
 
 
 Window Manager:
-Ctrl-o = open followed by type eg -> menu -> t for terminal, e for editor
-Ctrl-left = left
-Ctrl-right = right
-Ctrl-Alt-left = send app left
-Ctrl-Alt-right = send app right
-Ctrl-Esc = close --- close in window manager?
-Ctrl-tab = moving focus
+<ALTERNATIVE>-o = open followed by type eg -> menu -> t for terminal, e for editor
+<ALTERNATIVE>-left = left
+<ALTERNATIVE>-right = right
+<ALTERNATIVE>-Shift-left = send app left
+<ALTERNATIVE>-Shit-right = send app right
+<ALTERNATIVE>-Esc = close --- close in window manager?
+<ALTERNATIVE>-tab = moving focus
 
 
 Terminal:
-Ctrl-l = clear screen
-Ctrl-c = kill running process
-Ctrl-d = close shell
+<SPECIAL>-l = clear screen
+<SPECIAL>-c = kill running process
+<SPECIAL>-d = close shell
 Tab = completion
 
 !! Disable Shift page up/down capturing by xterm !!
-Ctrl up = scroll up
-Ctrl down = scroll down
-Ctrl-page up = scroll up page
-Ctrl-page down = scroll down page
-Ctrl-home = top of terminal
-Ctrl-end = bottom of terminal
+<SPECIAL> up = scroll up
+<SPECIAL> down = scroll down
+<SPECIAL>-page up = scroll up page
+<SPECIAL>-page down = scroll down page
+<SPECIAL>-home = top of terminal
+<SPECIAL>-end = bottom of terminal
 
-Ctrl-?? = copy current line
-Ctrl-insert = paste
+<SPECIAL>-?? = copy current line
+<SPECIAL>-insert = paste
 
 
 
