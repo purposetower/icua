@@ -1,6 +1,6 @@
 module Cate.ANSICodes where
 
--- ANSI escape codes
+-- ANSI escape codes, "\ESC[" + numbers seperated by semicolons + some string
 csi :: [Int] -> String -> String
 csi args code = "\ESC[" ++ addSemiColonToCsi (map show args) ++ code
 

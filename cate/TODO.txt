@@ -1,3 +1,8 @@
+open file
+large files
+
+---
+
 Editor {
 cursor position width height,
 buffer [Lines,Lines]
@@ -8,8 +13,8 @@ display takes cursor pos and buffer and draws
 
 ----
 
-memory size...? 1024
--- how much input at a time
+memory size...? 1024 --- DONE
+-- how much input at a time --- DONE
 
 
 mm output buffering, set a max, but usually manage with flush
@@ -20,8 +25,7 @@ optimisation only redraw
 
 --
 
-open file
-large files
+
 --
 
 profile
@@ -35,5 +39,7 @@ test
 search
 
 hidden char view
+
+syntax highlight
 
 

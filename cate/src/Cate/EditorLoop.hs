@@ -4,13 +4,20 @@ import Cate.ANSICodes
 import Cate.ProcessInput
 import Cate.Buffer
 
+import System.Environment (getArgs)
 import System.IO (hFlush, stdout)
 import System.Posix.IO (fdReadBuf, stdInput, stdOutput)
-import System.Posix.Terminal
+import System.Posix.Terminal (TerminalAttributes, getTerminalAttributes, setTerminalAttributes,
+    withoutMode, TerminalMode(ProcessInput, EnableEcho, KeyboardInterrupts, StartStopOutput,
+    ExtendedFunctions), TerminalState(Immediately))
 import Foreign (allocaArray, peekArray, Ptr)
+
+-- how much the user can type/paste in
+inputBufferByteSize = 1024
 
 editorRun :: IO ()
 editorRun = do
+    args <- getArgs
     originalTerminalAttributes <- start
     loop createEmptyBuffer
     shutDown originalTerminalAttributes
@@ -36,10 +43,9 @@ start = do
 loop :: Buffer -> IO ()
 loop buffer = do
     -- allocate memory
-    -- TODO 1024 bytes memory? why?
-    allocaArray 1024 $ \bufferPtr -> do
+    allocaArray inputBufferByteSize $ \bufferPtr -> do
         -- block till we read in bytes into memory
-        bytesRead <- fdReadBuf stdInput bufferPtr 1024
+        bytesRead <- fdReadBuf stdInput bufferPtr $ fromIntegral inputBufferByteSize
         -- read from memory
         input <- peekArray (fromIntegral bytesRead) bufferPtr
         let byteArray = read (show input) :: [Int]
@@ -47,7 +53,7 @@ loop buffer = do
             return ()
         else
             do
-                newBuffer <- displayBuffer $ processInput AsciiChar byteArray buffer
+                newBuffer <- displayBuffer $ processInput Normal byteArray buffer
                 -- finally flush the output out
                 hFlush stdout
                 loop newBuffer
