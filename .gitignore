@@ -1,1 +1,4 @@
 dist
+# ignore test data
+test/dataHorizontal.txt
+test/dataVertical.txt
