@@ -1,4 +1,4 @@
 dist
-# ignore test data
-test/dataHorizontal.txt
-test/dataVertical.txt
+# ignore large test data
+dataHorizontal.txt
+dataVertical.txt
