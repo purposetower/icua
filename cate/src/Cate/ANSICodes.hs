@@ -13,7 +13,7 @@ addSemiColonToCsi (x:xs) = x ++ ";" ++ (addSemiColonToCsi xs)
 -- terminal escape codes!
 clearScreenCode = csi [2] "J"
 
-setCursorPositionCode n m = csi [n + 1, m + 1] "H"
+setCursorPositionCode (n, m) = csi [n + 1, m + 1] "H"
 
 hideCursor = csi [] "?25l"
 showCursor = csi [] "?25h"

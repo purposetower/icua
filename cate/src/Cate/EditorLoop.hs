@@ -1,8 +1,8 @@
 module Cate.EditorLoop where
 
-import Cate.ANSICodes
+import Cate.Editor
 import Cate.ProcessInput
-import Cate.Buffer
+import Cate.TerminalSize
 
 import System.Environment (getArgs)
 import System.IO (hFlush, stdout)
@@ -12,40 +12,34 @@ import System.Posix.Terminal (TerminalAttributes, getTerminalAttributes, setTerm
     ExtendedFunctions), TerminalState(Immediately))
 import Foreign (allocaArray, peekArray, Ptr)
 
--- how much the user can type/paste in
-inputBufferByteSize = 1024
-
 editorRun :: IO ()
 editorRun = do
-    args <- getArgs
     originalTerminalAttributes <- start
-    loop createEmptyBuffer
+    args <- getArgs
+    editor <- createEditor args
+    loop editor
     shutDown originalTerminalAttributes
 
 start :: IO TerminalAttributes
 start = do
-    -- get the original terminal settings
     originalTerminalAttributes <- getTerminalAttributes stdInput
     originalOutputTerminalAttributes <- getTerminalAttributes stdOutput
-    
+
     -- put the terminal in "raw mode"(let us handle escape sequences)
     let rawTerminalAttributes = foldl withoutMode originalTerminalAttributes
             [ProcessInput, EnableEcho, KeyboardInterrupts, StartStopOutput
             , ExtendedFunctions]
     setTerminalAttributes stdInput rawTerminalAttributes Immediately
     
-    putStr $ clearScreenCode
-    putStr $ setCursorPositionCode 0 0
-    -- print immediatly
-    hFlush stdout
     return originalTerminalAttributes
 
-loop :: Buffer -> IO ()
-loop buffer = do
+loop :: Editor -> IO ()
+loop editor = do
+    displayEditor editor
     -- allocate memory
-    allocaArray inputBufferByteSize $ \bufferPtr -> do
-        -- block till we read in bytes into memory
-        bytesRead <- fdReadBuf stdInput bufferPtr $ fromIntegral inputBufferByteSize
+    allocaArray (inputBufferByteSize editor) $ \bufferPtr -> do
+        -- BLOCK till we read bytes into memory
+        bytesRead <- fdReadBuf stdInput bufferPtr $ fromIntegral (inputBufferByteSize editor)
         -- read from memory
         input <- peekArray (fromIntegral bytesRead) bufferPtr
         let byteArray = read (show input) :: [Int]
@@ -53,13 +47,17 @@ loop buffer = do
             return ()
         else
             do
-                newBuffer <- displayBuffer $ processInput Normal byteArray buffer
-                -- finally flush the output out
-                hFlush stdout
-                loop newBuffer
+                let newEditor = processInput byteArray editor
+                -- window might have been resized
+                newTerminalWindowSize <- getTerminalWindowSize
+                loop newEditor {terminalWindowSize = newTerminalWindowSize}
 
 -- don't forget to reset terminal
 shutDown :: TerminalAttributes -> IO ()
 shutDown originalTerminalAttributes = do
+    -- add a new line
+    putStrLn ""
+    -- print immediatly
+    hFlush stdout
     setTerminalAttributes stdInput originalTerminalAttributes Immediately
     return ()

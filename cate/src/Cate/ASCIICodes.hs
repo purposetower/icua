@@ -1,13 +1,13 @@
 module Cate.ASCIICodes where
 
 -- control d
-endOfTransmision = "\EOT"
+endOfTransmision = '\EOT'
 
 -- control l
-formFeed = "\FF"
+formFeed = '\FF'
 
-escape = "\ESC"
+escape = '\ESC'
 
-delete = "\DEL"
+delete = '\DEL'
 
-newLine = "\n"
+newLine = '\n'

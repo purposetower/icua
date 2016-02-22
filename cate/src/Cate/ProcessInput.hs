@@ -1,44 +1,35 @@
 module Cate.ProcessInput where
 
-import Cate.ASCIICodes
 import Cate.ANSICodes
-import Cate.Buffer
+import Cate.ASCIICodes
+import Cate.TerminalSize
+import Cate.Editor
 
 import Data.Char (chr)
 
 -- convert bytes to String
 bytesToString = map chr
 
--- how to display output
-data ShowMode = Normal | AsciiChar | Bytes
+processInput :: [Int] -> Editor -> Editor
+processInput byteList editor@(Editor _ (TerminalWindowSize width height) _ _ _ )
+    | input == cursorRight = moveDisplayStartPosition $ moveInsertPositionHorizontal 1 editor
+    | input == cursorLeft = moveDisplayStartPosition $ moveInsertPositionHorizontal (-1) editor
+    | input == cursorDown = moveDisplayStartPosition $ moveInsertPositionHorizontal width editor
+    | input == cursorUp = moveDisplayStartPosition $ moveInsertPositionHorizontal (-width) editor
+    | input == [delete] = deleteFromEditor editor
+    | otherwise = moveDisplayStartPosition $ insertIntoEditor input editor
+    where
+        input = bytesToString byteList
 
-processInput :: ShowMode -> [Int] -> Buffer -> Buffer
-processInput Normal byteList buffer@(Buffer cPosition bData tWSize)
-    | input == formFeed = Buffer cPosition bData tWSize
-    
-    | input == cursorUp = Buffer cPosition bData tWSize
-    | input == cursorDown = Buffer cPosition bData tWSize
-    | input == cursorRight = Buffer cPosition bData tWSize
-    | input == cursorLeft = Buffer cPosition bData tWSize
-    
-    | input == delete = Buffer (cPosition - 1)
-        (bufferData (removeFromBuffer buffer (cPosition - 1) cPosition)) tWSize
-    
-    | input == newLine = insertNewLineIntoBuffer buffer
-    
-    | otherwise = insertIntoBuffer buffer input
-    where input = bytesToString byteList
+-- ascii
+-- (show input)
 
-processInput AsciiChar byteList buffer@(Buffer cPosition bData tWSize)
-    | otherwise = insertIntoBuffer buffer $ show input
-    where input = bytesToString byteList
-
-processInput Bytes byteList buffer@(Buffer cPosition bData tWSize)
-    | otherwise = insertIntoBuffer buffer $ show byteList
-    where input = bytesToString byteList
+-- bytes
+-- (show byteList)
 
 stopProcessingInput :: [Int] -> Bool
 stopProcessingInput byteList
-    | input == escape = True
+    | [escape] == input = True
     | otherwise = False
-    where input = bytesToString byteList
+    where
+        input = bytesToString byteList

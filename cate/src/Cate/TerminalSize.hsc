@@ -31,8 +31,8 @@ instance Storable TerminalSizeStruct where
 foreign import ccall "sys/ioctl.h ioctl"
   ioctl :: CInt -> CInt -> Ptr TerminalSizeStruct -> IO CInt
 
-terminalSize :: IO TerminalWindowSize
-terminalSize = with (TerminalSizeStruct 0 0) $ \ts -> do
+getTerminalWindowSize :: IO TerminalWindowSize
+getTerminalWindowSize = with (TerminalSizeStruct 0 0) $ \ts -> do
     ioctl (stdOutputCInt stdOutput) (#const TIOCGWINSZ) ts
     TerminalSizeStruct row col <- peek ts
     return $ TerminalWindowSize (fromIntegral row) (fromIntegral col)
