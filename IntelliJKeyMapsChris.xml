@@ -80,6 +80,15 @@
     <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> shift h" />
   </action>
   
+  <action id="FindNext">
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> 3" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> 3" />
+  </action>
+  <action id="FindPrevious">
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> shift 3" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> shift 3" />
+  </action>
+  
   <!-- Movement -->
   <action id="EditorUp">
     <keyboard-shortcut first-keystroke="up" />

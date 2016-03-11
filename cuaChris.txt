@@ -22,15 +22,17 @@ Some Alt key clashes in intellij, tries to open menu, add disable-mnemonics="fal
 Text:
 <SPECIAL>-c = copy
 <SPECIAL>-v = paste
-<SPECIAL>-x = cut
+<SPECIAL>-x = cut, cuts line with no selection
 <SPECIAL>-d = delete/yank line
 <SPECIAL>-z = undo
 <SPECIAL>-Shift-z = redo
 <SPECIAL>-a = select all
-<SPECIAL>-f = search with regex
-<SPECIAL>-h = replace with regex
 <SPECIAL>-s = save
 <SPECIAL>-Shift-s = save as
+<SPECIAL>-f = search with regex
+<SPECIAL>-h = replace with regex
+<SPECIAL>-3 = next occurence
+Shit-<SPECIAL>-3 = previous occurence
 
 
 Text Navigation:
