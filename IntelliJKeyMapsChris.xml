@@ -198,10 +198,6 @@
     <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> i" />
     <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> i" />
   </action>
-  <action id="OptimizeImports">
-    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> o" />
-    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> o" />
-  </action>
 
   <action id="CodeCompletion">
     <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> space" />
@@ -255,5 +251,19 @@
   </action>
   <action id="Resume">
     <keyboard-shortcut first-keystroke="f10" />
+  </action>
+  
+  <!-- IntelliJ Specific -->
+  <action id="Switcher">
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> tab" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> tab" />
+  </action>
+  <action id="ActivateProjectToolWindow">
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> 1" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> 1" />
+  </action>
+  <action id="CloseContent">
+    <keyboard-shortcut first-keystroke="<SPECIAL_LEFT> q" />
+    <keyboard-shortcut first-keystroke="<SPECIAL_RIGHT> q" />
   </action>
 </keymap>

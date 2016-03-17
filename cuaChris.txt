@@ -58,8 +58,7 @@ Code:
 <SPECIAL>-m = goto(class, file, module etc)
 
 select will highlight in file
-<SPECIAL>-i = format with optional selecting
-<SPECIAL>-o = organise imports
+<SPECIAL>-i = format with optional selecting, includes organise import
 <SPECIAL>-space = content assist
 <SPECIAL>-enter = code fix suggestion
 <SPECIAL>-/ = comment out / in
@@ -95,7 +94,7 @@ Window Manager:
 <ALTERNATIVE>-right = right
 <ALTERNATIVE>-Shift-left = send app left
 <ALTERNATIVE>-Shit-right = send app right
-<ALTERNATIVE>-Esc = close --- close in window manager?
+<ALTERNATIVE>-q = close --- close in window manager?
 <ALTERNATIVE>-tab = moving focus
 
 
@@ -115,6 +114,4 @@ Tab = completion
 
 <SPECIAL>-?? = copy current line
 <SPECIAL>-insert = paste
-
-
 
