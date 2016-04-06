@@ -1,4 +1,4 @@
-import Cate.EditorLoop
+import Cate.Editor
 
 main :: IO ()
 main = editorRun

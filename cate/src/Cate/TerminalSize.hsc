@@ -1,4 +1,6 @@
-module Cate.TerminalSize where
+module Cate.TerminalSize (getTerminalWindowSize) where
+
+import Cate.Types.DisplayTypes (TerminalWindowSize(..))
 
 import Foreign
 import Foreign.C.Types
@@ -9,8 +11,6 @@ import System.Posix.IO (stdOutput)
 #include <unistd.h>
 
 #let alignment t = "%lu", (unsigned long)offsetof(struct {char x__; t (y__); }, y__)
-
-data TerminalWindowSize = TerminalWindowSize {width :: Int, height :: Int}
 
 data TerminalSizeStruct = TerminalSizeStruct CUShort CUShort
 

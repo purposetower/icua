@@ -7,8 +7,8 @@ csi args code = "\ESC[" ++ addSemiColonToCsi (map show args) ++ code
 -- add ; to csi, pass in ["2", "3"] return ["2;3"]
 addSemiColonToCsi :: [String] -> String
 addSemiColonToCsi [] = ""
-addSemiColonToCsi (x:[]) = x
-addSemiColonToCsi (x:xs) = x ++ ";" ++ (addSemiColonToCsi xs)
+addSemiColonToCsi [x] = x
+addSemiColonToCsi (x:xs) = x ++ ";" ++ addSemiColonToCsi xs
 
 -- terminal escape codes!
 clearScreenCode = csi [2] "J"

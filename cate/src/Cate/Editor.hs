@@ -1,118 +1,69 @@
-module Cate.Editor where
+module Cate.Editor (editorRun) where
 
-import Cate.TerminalSize
-import Cate.ANSICodes
-import Cate.ASCIICodes
+import Cate.Buffer
+import Cate.Display (createDisplay, displayEditor)
+import Cate.Event
+import Cate.Types.EditorTypes (Editor (..), defaultInputBufferByteSize)
 
-import System.IO (hFlush, stdout, openFile, IOMode(ReadMode), hGetContents)
-
--- how many bytes the user can paste in
-defaultInputBufferByteSize = 1024
-
-data Editor = Editor {inputBufferByteSize :: Int, terminalWindowSize :: TerminalWindowSize,
-    displayStartPosition :: Int, insertPosition :: Int, bufferData :: String}
+import Foreign (Ptr, allocaArray, peekArray)
+import System.Environment (getArgs)
+import System.IO (hFlush, stdout)
+import System.Posix.IO (fdReadBuf, stdInput, stdOutput)
+import System.Posix.Terminal (TerminalAttributes, TerminalMode (EnableEcho, ExtendedFunctions,
+    KeyboardInterrupts, ProcessInput, StartStopOutput), TerminalState (Immediately),
+    getTerminalAttributes, setTerminalAttributes, withoutMode)
 
 createEditor :: [String] -> IO Editor
-createEditor [] = do
-    terminalWindowSize <- getTerminalWindowSize
-    -- empty editor
-    return (Editor defaultInputBufferByteSize terminalWindowSize 0 0 "")
+createEditor input = do
+    buffer <- createBuffer input
+    display <- createDisplay
+    return (Editor defaultInputBufferByteSize buffer display)
 
-createEditor (x:xs) = do
-    terminalWindowSize <- getTerminalWindowSize
-    -- ignore everything after first arg
-    fileHandle <- openFile x ReadMode
-    fileContents <- hGetContents fileHandle
-    return (Editor defaultInputBufferByteSize terminalWindowSize 0 0 fileContents)
+editorRun :: IO ()
+editorRun = do
+    originalTerminalAttributes <- start
+    args <- getArgs
+    editor <- createEditor args
+    loop editor
+    shutDown originalTerminalAttributes
 
-displayEditor :: Editor -> IO ()
-displayEditor editor = do
-        putStr $ clearScreenCode ++ setCursorPositionCode (0, 0) ++
-            getViewableData editor ++ getCursorPosition editor
-        -- print immediatly
-        hFlush stdout
+start :: IO TerminalAttributes
+start = do
+    originalTerminalAttributes <- getTerminalAttributes stdInput
+    originalOutputTerminalAttributes <- getTerminalAttributes stdOutput
 
--- returns data we can view starting from displayStartPosition
-getViewableData :: Editor -> String
-getViewableData (Editor _ terminalWindowSize@(TerminalWindowSize width height)
-    displayStartPosition _ bufferData) =
-    viewableData width height terminalWindowSize (drop displayStartPosition bufferData)
+    -- put the terminal in "raw mode"(let us handle escape sequences)
+    let rawTerminalAttributes = foldl withoutMode originalTerminalAttributes
+            [ProcessInput, EnableEcho, KeyboardInterrupts, StartStopOutput
+            , ExtendedFunctions]
+    setTerminalAttributes stdInput rawTerminalAttributes Immediately
 
-getCursorPosition :: Editor -> String
-getCursorPosition (Editor _ terminalWindowSize@(TerminalWindowSize width height)
-    displayStartPosition insertPosition bufferData) = setCursorPositionCode $
-    viewableCursor 0 0 terminalWindowSize $ drop displayStartPosition $
-    take insertPosition bufferData
+    return originalTerminalAttributes
 
--- works out how much data can be displayed on terminal
--- takes newLines into account
--- takes width accumulator, height accumulator, terminal size, text to fit in terminal
-viewableData :: Int -> Int -> TerminalWindowSize -> String -> String
--- no more data
-viewableData _ _ _ [] = ""
+-- TODO don't block UI thread
+loop :: Editor -> IO ()
+loop editor = do
+    displayEditor editor
+    -- allocate memory
+    allocaArray (inputBufferByteSize editor) $ \bufferPtr -> do
+        -- BLOCK till we read bytes into memory
+        bytesRead <- fdReadBuf stdInput bufferPtr $ fromIntegral (inputBufferByteSize editor)
+        -- read from memory
+        input <- peekArray (fromIntegral bytesRead) bufferPtr
+        let byteArray = read (show input) :: [Int]
+        if stopEvent byteArray then
+            return ()
+        else
+            do
+                let newEditor = processEvent byteArray editor
+                loop newEditor
 
--- end of terminal viewable area, 0 height
-viewableData _ 0 _ _ = ""
-
-viewableData accWidth accHeight terminalWindowSize@(TerminalWindowSize width _) (x:xs)
-    -- handle new line on last line of terminal
-    | x == newLine && accHeight == 1 = ""
-    -- ignore new line when last character fitting on terminal width
-    | x == newLine && accWidth == 1 = x : viewableData width accHeight terminalWindowSize xs
-    -- handle new line
-    | x == newLine = x : viewableData width (accHeight - 1) terminalWindowSize xs
-    -- end of terminal width, move down
-    | accWidth == 1 = x : viewableData width (accHeight - 1) terminalWindowSize  xs
-    -- move right
-    | otherwise = x : viewableData (accWidth - 1) accHeight terminalWindowSize  xs
-
--- works out cursor position given we start at displayStartPosition and end at insertPosition
--- takes width accumulator, height accumulator, terminal size, text to fit in terminal
-viewableCursor :: Int -> Int -> TerminalWindowSize -> String -> (Int, Int)
-
-viewableCursor accWidth accHeight _ [] = (accHeight, accWidth)
-
-viewableCursor accWidth accHeight terminalWindowSize@(TerminalWindowSize width _) (x:xs)
-    -- handle new line
-    | x == newLine = viewableCursor 0 (accHeight + 1) terminalWindowSize xs
-    -- end of terminal width, move down
-    | accWidth == width - 1 = viewableCursor 0 (accHeight + 1) terminalWindowSize  xs
-    -- move right
-    | otherwise = viewableCursor (accWidth + 1) accHeight terminalWindowSize  xs
-
-insertIntoEditor :: String -> Editor -> Editor
-insertIntoEditor input editor@(Editor _ _ _ insertPosition bufferData) =
-    editor {insertPosition = insertPosition + length input, bufferData =
-        ((take insertPosition bufferData) ++ input ++ (drop insertPosition bufferData))}
-
-deleteFromEditor :: Editor -> Editor
-deleteFromEditor editor@(Editor _ _ _ insertPosition bufferData)
-    | newInsertPosition >= 0 = editor {insertPosition = newInsertPosition, bufferData =
-        ((take newInsertPosition bufferData) ++ (drop insertPosition bufferData))}
-    | otherwise = editor
-    where
-        newInsertPosition = insertPosition - 1
-
--- moves displayStartPosition until we can see cursor
-moveDisplayStartPosition :: Editor -> Editor
-moveDisplayStartPosition editor@(Editor _ terminalWindowSize@(TerminalWindowSize width height)
-    displayStartPosition insertPosition bufferData)
-    | fromInsertPostionToDisplayStartPositionLength < insertPosition - displayStartPosition =
-        editor {displayStartPosition = insertPosition - fromInsertPostionToDisplayStartPositionLength}
-    | insertPosition < displayStartPosition = editor {displayStartPosition = insertPosition}
-    | otherwise = editor
-    where
-        fromInsertPostionToDisplayStartPositionLength = length $ viewableData width height
-            terminalWindowSize (reverse $ take insertPosition bufferData)
-
-moveInsertPositionHorizontal :: Int -> Editor -> Editor
-moveInsertPositionHorizontal moveAmount editor@(Editor _ _ _ insertPosition bufferData)
-    | newInsertPosition >= 0 && newInsertPosition <= minimumLength =
-        editor {insertPosition = insertPosition + moveAmount}
-    | otherwise = editor
-    where
-        newInsertPosition = insertPosition + moveAmount
-        -- don't use length bufferData as evaluates everything there to work out length
-        -- could have a huge file!
-        minimumLength = length (take newInsertPosition bufferData)
-
+-- don't forget to reset terminal
+shutDown :: TerminalAttributes -> IO ()
+shutDown originalTerminalAttributes = do
+    -- add a new line
+    putStrLn ""
+    -- print immediatly
+    hFlush stdout
+    setTerminalAttributes stdInput originalTerminalAttributes Immediately
+    return ()

@@ -1,3 +1,22 @@
+move display to show cursor : calculate display regions  from last cursor
+<-- looks at past to work out where display start should be in relation to cursor
+
+move display : calculte display regions  from display start pos
+<-- doesnt look at past
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 refactor
 
 
