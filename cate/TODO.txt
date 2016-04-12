@@ -1,67 +1,8 @@
-move display to show cursor : calculate display regions  from last cursor
-<-- looks at past to work out where display start should be in relation to cursor
+cursor
+nowrap
 
-move display : calculte display regions  from display start pos
-<-- doesnt look at past
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-refactor
-
-
-open file --- DONE
-large files --- DONE
-
----
-
-Editor {
-cursor position width height,
-buffer [Lines,Lines]
-}
-
-display takes cursor pos and buffer and draws 
-- no wrap and soft wrap
-
-----
-
-memory size...? 1024 --- DONE
--- how much input at a time --- DONE
-
-
-mm output buffering, set a max, but usually manage with flush
---
-
-keep a buffer of text, redraw whole screen on every edit
-optimisation only redraw 
-
---
-
-
---
-
-profile
-
-memory use
-
-test
-
---
-
+write file
+unicode
 search
-
-hidden char view
-
-syntax highlight
-
+highlight
 

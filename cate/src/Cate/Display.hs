@@ -19,10 +19,13 @@ createDisplay = do
     return (Display terminalWindowSize 0)
 
 displayEditor :: Editor -> IO ()
-displayEditor (Editor _ (Buffer _ bufferStartPosition bufferData)
+displayEditor (Editor _ (Buffer cursors bufferStartPosition bufferData)
     (Display terminalWindowSize _)) = do
         putStr $ hideCursor ++ clearScreenCode ++ setCursorPositionCode (0, 0) ++
-            getDisplayFromBufferSections bufferStartPosition terminalWindowSize bufferData
+            getDisplayFromBufferSections bufferStartPosition terminalWindowSize bufferData ++
+            setCursorPositionCode (head (getCursorPositionFromBufferSections cursors bufferStartPosition
+                terminalWindowSize bufferData)) ++ 
+            showCursor
         -- print immediatly
         hFlush stdout
 
@@ -62,6 +65,23 @@ moveStartPositionToShowLastCursor editor@(Editor _ oldBuffer@(Buffer cursors buf
         newBufferStartPosition = sectionStartPosition (head (drop (cursorBufferSectionIndex
             - heightWithLastCheck) bufferSections))
 
+getCursorPositionFromBufferSections :: [Cursor] -> Int -> TerminalWindowSize -> String -> [(Int, Int)]
+
+getCursorPositionFromBufferSections ((SimpleCursor cursorPosition):xs) startPosition terminalWindowSize@(TerminalWindowSize width height) bufferData
+    = [pos] ++ (getCursorPositionFromBufferSections xs startPosition terminalWindowSize bufferData)
+    where
+        bufferSections = take height (calculateBufferSections startPosition width (drop startPosition bufferData))
+        bufferSectionWithCursor = head $ filter (\(BufferSection startPosition sectionEndPosition) -> cursorPosition >= startPosition && cursorPosition <= sectionEndPosition) bufferSections
+        pos = case elemIndex bufferSectionWithCursor bufferSections of
+            Just x -> (x, cursorPosition - (sectionStartPosition bufferSectionWithCursor))
+            Nothing -> (0, 0)
+
+getCursorPositionFromBufferSections ((SelectionCursor cursorStartPosition cursorEndPosition):xs) sectionStartPosition terminalWindowSize@(TerminalWindowSize width height) bufferData
+    = [(0, 0)] ++ (getCursorPositionFromBufferSections xs sectionStartPosition terminalWindowSize bufferData)
+    where
+        bufferSections = calculateBufferSections sectionStartPosition width bufferData
+
+getCursorPositionFromBufferSections [] _ _ _ = []
 
 getDisplayFromBufferSections :: Int -> TerminalWindowSize -> String -> String
 getDisplayFromBufferSections _ _ [] = []
