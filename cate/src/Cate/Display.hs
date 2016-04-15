@@ -1,4 +1,4 @@
-module Cate.Display(calculateBufferSections,createDisplay, displayEditor, insertIntoEditor, deleteFromEditor,
+module Cate.Display(createDisplay, displayEditor, insertIntoEditor, deleteFromEditor,
     moveInsertPositionHorizontally, moveInsertPositionVertically, moveStartPosition, moveStartPositionToShowLastCursor) where
 
 import Cate.ANSICodes
@@ -55,7 +55,7 @@ moveStartPositionToShowLastCursor editor@(Editor _ oldBuffer@(Buffer cursors buf
         cursorPosition = case last cursors of
             SimpleCursor cursorPosition -> cursorPosition
             SelectionCursor _ cursorEndPosition -> cursorEndPosition
-        bufferSections = calculateBufferSections 0 width bufferData
+        bufferSections = calculateBufferSectionsNoWrap 0 width bufferData
         cursorBufferSection = head [x | x <- bufferSections,
             cursorPosition >= sectionStartPosition x && cursorPosition <= sectionEndPosition x]
         cursorBufferSectionIndex = (case (elemIndex cursorBufferSection bufferSections) of
@@ -70,7 +70,7 @@ getCursorPositionFromBufferSections :: [Cursor] -> Int -> TerminalWindowSize -> 
 getCursorPositionFromBufferSections ((SimpleCursor cursorPosition):xs) startPosition terminalWindowSize@(TerminalWindowSize width height) bufferData
     = [pos] ++ (getCursorPositionFromBufferSections xs startPosition terminalWindowSize bufferData)
     where
-        bufferSections = take height (calculateBufferSections startPosition width (drop startPosition bufferData))
+        bufferSections = take height (calculateBufferSectionsNoWrap startPosition width (drop startPosition bufferData))
         bufferSectionWithCursor = head $ filter (\(BufferSection startPosition sectionEndPosition) -> cursorPosition >= startPosition && cursorPosition <= sectionEndPosition) bufferSections
         pos = case elemIndex bufferSectionWithCursor bufferSections of
             Just x -> (x, cursorPosition - (sectionStartPosition bufferSectionWithCursor))
@@ -79,7 +79,7 @@ getCursorPositionFromBufferSections ((SimpleCursor cursorPosition):xs) startPosi
 getCursorPositionFromBufferSections ((SelectionCursor cursorStartPosition cursorEndPosition):xs) sectionStartPosition terminalWindowSize@(TerminalWindowSize width height) bufferData
     = [(0, 0)] ++ (getCursorPositionFromBufferSections xs sectionStartPosition terminalWindowSize bufferData)
     where
-        bufferSections = calculateBufferSections sectionStartPosition width bufferData
+        bufferSections = calculateBufferSectionsNoWrap sectionStartPosition width bufferData
 
 getCursorPositionFromBufferSections [] _ _ _ = []
 
@@ -90,23 +90,42 @@ getDisplayFromBufferSections sectionStartPosition (TerminalWindowSize width heig
     | bufferSectionData == [] = []
     | otherwise = if last bufferSectionData == newLine then init bufferSectionData else bufferSectionData
     where
-        bufferSections = take height (calculateBufferSections sectionStartPosition width (drop sectionStartPosition bufferData))
+        bufferSections = take height (calculateBufferSectionsNoWrap sectionStartPosition width (drop sectionStartPosition bufferData))
         bufferSectionData = foldl1 (++) (map (getDataFromBufferSection bufferData) bufferSections)
 
 getDataFromBufferSection :: String -> BufferSection -> String
 getDataFromBufferSection bufferData (BufferSection sectionStartPosition sectionEndPosition) =
     drop sectionStartPosition $ take sectionEndPosition bufferData
 
-calculateBufferSections :: Int -> Int -> String -> [BufferSection]
-calculateBufferSections _ _ [] = []
+calculateBufferSectionsWrap :: Int -> Int -> String -> [BufferSection]
+calculateBufferSectionsWrap _ _ [] = []
 
-calculateBufferSections sectionStartPosition maxWidth bufferData =
+calculateBufferSectionsWrap sectionStartPosition maxWidth bufferData =
     BufferSection sectionStartPosition sectionEndPosition :
-        calculateBufferSections sectionEndPosition maxWidth (drop endPositionOffset bufferData)
+        calculateBufferSectionsWrap sectionEndPosition maxWidth (drop endPositionOffset bufferData)
     where
         newLineIndex = elemIndex newLine (take maxWidth bufferData)
         endPositionOffset = case newLineIndex of
             Just x -> if x < maxWidth then x + 1 else maxWidth
             Nothing -> length $ take maxWidth bufferData
         sectionEndPosition = sectionStartPosition + endPositionOffset
+
+calculateBufferSectionsNoWrap :: Int -> Int -> String -> [BufferSection]
+calculateBufferSectionsNoWrap _ _ [] = []
+
+calculateBufferSectionsNoWrap sectionStartPosition maxWidth bufferData =
+    BufferSection sectionStartPosition sectionEndPosition :
+        (if wrapEnd == 0 then
+            []
+        else
+            calculateBufferSectionsNoWrap wrapEnd maxWidth (drop endPositionOffset bufferData))
+    where
+        newLineIndex = elemIndex newLine bufferData
+        endPositionOffset = case newLineIndex of
+            Just x -> if x < maxWidth then x + 1 else maxWidth
+            Nothing -> length $ take maxWidth bufferData
+        sectionEndPosition = sectionStartPosition + endPositionOffset
+        wrapEnd = case newLineIndex of
+            Just x -> x + sectionStartPosition
+            Nothing -> 0
 

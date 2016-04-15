@@ -1,8 +1,8 @@
-cursor
-nowrap
+cursor --- DONE
+nowrap -- ish
 
 write file
-unicode
+unicode, tabs..
 search
 highlight
 
