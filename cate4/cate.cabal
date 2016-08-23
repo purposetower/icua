@@ -6,10 +6,12 @@ cabal-version:       >=1.10
 library
   exposed-modules:     Cate
   other-modules:       Core.Types.CoreTypes
+                       Core.Types.CoreTypes2
                        Core.Display
+                       Core.Display2
                        FrontEnds.TerminalSize
                        FrontEnds.TerminalCharacterWidth
-  build-depends:       base, unix
+  build-depends:       base, unix, utf8-string
   hs-source-dirs:      src/Cate
   default-language:    Haskell2010
 

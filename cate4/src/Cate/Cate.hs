@@ -11,7 +11,16 @@ import FrontEnds.TerminalSize
 import FrontEnds.TerminalCharacterWidth
 
 import Core.Display
+import Core.Display2
 import Core.Types.CoreTypes
+import Core.Types.CoreTypes2
+
+import qualified Codec.Binary.UTF8.String as U
+
+import Debug.Trace
+
+-- can debug by doing `debug` someString after stuff
+debug = flip trace
 
 editorRun = do
     putStrLn "Starting..."
@@ -23,16 +32,28 @@ editorRun = do
     --putChar cc
 
     lala <- makeStringy ll
-    --putStrLn $ take 5 lala
+    --putStrLn lala
 
-    let acc = getDisplaySectionsWrap lala 0 (width terminalWindowSize) getTerminalCharacterWidth
-    let acc2 = getDisplaySectionsNoWrap lala 0 0 (width terminalWindowSize) getTerminalCharacterWidth
+    let newDisplay2Test = getDisplayRows (TextToDisplay lala 0 (width terminalWindowSize) getTerminalCharacterWidth getUtf8CharBytesLength (NoWrap 0 134))
+    --putStrLn $ show (length newDisplay2Test)
 
-    putStrLn $ (foldl1 (++) (take 2000 (map text acc)))
+    putStrLn $ (foldl1 (++) (take 20 (map getTexty2 newDisplay2Test)))
+
+    --let acc = getDisplaySectionsWrap lala 0 (width terminalWindowSize) getTerminalCharacterWidth
+    --let acc2 = getDisplaySectionsNoWrap lala 0 0 (width terminalWindowSize) getTerminalCharacterWidth
+
+    --putStrLn $ (foldl1 (++) (take 2000 (map getTexty acc)))
 
 
     return ()
 
+-- get the number of bytes a utf8 character takes
+getUtf8CharBytesLength :: Char -> Integer
+getUtf8CharBytesLength = toInteger . length . U.encodeChar
+
+getTexty (DisplaySection _ _ text) = text
+
+getTexty2 (DisplayRow _ _ text) = text
 
 makeStringy :: [(IO Bool, IO Char)] -> IO String
 makeStringy [] = return ""
