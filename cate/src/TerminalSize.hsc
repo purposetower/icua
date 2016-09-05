@@ -1,6 +1,4 @@
-module Cate.TerminalSize (getTerminalWindowSize) where
-
-import Cate.Types.DisplayTypes (TerminalWindowSize(..))
+module TerminalSize where
 
 import Foreign
 import Foreign.C.Types
@@ -10,7 +8,7 @@ import System.Posix.IO (stdOutput)
 #include <sys/ioctl.h>
 #include <unistd.h>
 
-#let alignment t = "%lu", (unsigned long)offsetof(struct {char x__; t (y__); }, y__)
+data TerminalWindowSize = TerminalWindowSize {width :: Int, height :: Int}
 
 data TerminalSizeStruct = TerminalSizeStruct CUShort CUShort
 
@@ -35,6 +33,7 @@ getTerminalWindowSize :: IO TerminalWindowSize
 getTerminalWindowSize = with (TerminalSizeStruct 0 0) $ \ts -> do
     ioctl (stdOutputCInt stdOutput) (#const TIOCGWINSZ) ts
     TerminalSizeStruct row col <- peek ts
+    -- TODO row and column wrong order....
     return $ TerminalWindowSize (fromIntegral row) (fromIntegral col)
 
 stdOutputCInt (Fd fd) = fd

@@ -1,4 +1,4 @@
-module Cate.ASCIICodes where
+module ASCIICodes where
 
 -- control d
 endOfTransmision = '\EOT'

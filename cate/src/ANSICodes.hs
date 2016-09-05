@@ -1,4 +1,4 @@
-module Cate.ANSICodes where
+module ANSICodes where
 
 -- ANSI escape codes, "\ESC[" + numbers seperated by semicolons + some string
 csi :: [Int] -> String -> String

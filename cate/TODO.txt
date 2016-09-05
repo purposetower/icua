@@ -1,8 +1,0 @@
-cursor --- DONE
-nowrap -- ish
-
-write file
-unicode, tabs..
-search
-highlight
-

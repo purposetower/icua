@@ -2,3 +2,6 @@ dist
 # ignore large test data
 dataHorizontal.txt
 dataVertical.txt
+
+# stack
+.stack-work
