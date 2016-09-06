@@ -31,8 +31,8 @@ Text:
 <SPECIAL>-Shift-s = save as
 <SPECIAL>-f = search with regex
 <SPECIAL>-h = replace with regex
-<SPECIAL>-3 = next occurence
-Shit-<SPECIAL>-3 = previous occurence
+<SPECIAL>-n = next occurence
+Shit-<SPECIAL>-n = previous occurence
 
 
 Text Navigation:
@@ -40,8 +40,8 @@ up = up
 down = down
 left = left
 right = right
-end = end of line
 home = start of line
+end = end of line
 <SPECIAL>-home = start of file
 <SPECIAL>-end = end of file
 <SPECIAL>-left = start of word
@@ -72,30 +72,34 @@ F3 = debug
 
 Debug:
 F4 = show execution point
-F5 = toggle breakpoint
-F6 = toggle breakpointS
-F7 = step into line
-F8 = step over line
-F9 = step out
-F10 = resume from breakpoint
+
+F5 = step into line
+F6 = step over line
+F7 = step out
+F8 = resume from breakpoint
+
+F9 = toggle breakpoint
+F10 = toggle breakpointS
 
 
 File Navigation:
 <SPECIAL>-f = search with regex
 <SPECIAL>-h = replace with regex
-<SPECIAL>-o = open
+<SPECIAL>-o = open/goto
 space = expand/collapse directory
 <Letter Navigation> = move to folder directory when start typing name
 
 
 Window Manager:
-<ALTERNATIVE>-o = open followed by type eg -> menu -> t for terminal, e for editor
+<ALTERNATIVE>-o = open/launch followed by type eg -> menu -> t for terminal, e for editor
 <ALTERNATIVE>-left = left
 <ALTERNATIVE>-right = right
 <ALTERNATIVE>-Shift-left = send app left
 <ALTERNATIVE>-Shit-right = send app right
-<ALTERNATIVE>-q = close --- close in window manager?
+<ALTERNATIVE>-??? = close
 <ALTERNATIVE>-tab = moving focus
+
+numbers to switch between windows in  layout
 
 
 Terminal:
@@ -115,3 +119,12 @@ Tab = completion
 <SPECIAL>-?? = copy current line
 <SPECIAL>-insert = paste
 
+??? = clear current command
+
+??? = search command history
+
+
+Browser:
+??? = back
+??? = refresh
+??? = search
