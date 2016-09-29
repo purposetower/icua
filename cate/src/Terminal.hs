@@ -3,10 +3,11 @@ module Terminal (runTerminal) where
 import ANSICodes
 import TerminalType
 import Event
+import LazyFileRead
 import DisplayText
-import TerminalCharacterWidth
+import TerminalCharWidth
 import TerminalSize
-import TerminalCharacterByteSize
+import UTF8CharByteSize
 
 import Foreign (Ptr, allocaArray, peekArray)
 import System.Environment (getArgs)
@@ -62,44 +63,25 @@ loop terminal = do
             return ()
         else
             do
-                let newTerminal = processEvent byteArray displayRows terminal
+                newTerminal <- processEvent byteArray displayRows terminal
                 loop newTerminal
 
 
 displayTerminal :: Terminal -> IO [DisplayRow]
 displayTerminal (Terminal _ handle handlePosition leftMarginDisplayOffset) = do
-    -- move handler back to correct position
-    hSeek handle AbsoluteSeek handlePosition
     terminalWindowSize <- getTerminalWindowSize
-    fileReadIn <- makeStringy $ readSomeFileLazy handle 2000000
-    let displayRows = take (height terminalWindowSize) (getDisplayRows (TextToDisplay fileReadIn handlePosition (toInteger (width terminalWindowSize)) getTerminalCharacterWidth getCharacterByteSize Wrap))
+    fileReadIn <- readFileLazy (LazyFileReadData handle handlePosition 32768 getUTF8CharByteSize)
+    let displayRows = take (height terminalWindowSize) (getDisplayRows (TextToDisplay fileReadIn handlePosition (toInteger (width terminalWindowSize)) getTerminalCharWidth getUTF8CharByteSize Wrap))
     -- remove last \n in display row
     putStr $ hideCursor ++ clearScreenCode ++ setCursorPositionCode (0, 0) ++
-        (foldl1 (++) (map getTexty2 displayRows)) ++ showCursor
+        printDisplayRows displayRows ++ showCursor
     hFlush stdout
     return displayRows
 
 
-readSomeFileLazy :: Handle -> Integer -> [(IO Bool, IO Char)]
-readSomeFileLazy _ 0 = []
-
-readSomeFileLazy handle maxReadSize = do
-    let isEOF = hIsEOF handle
-    let nextChar = hGetChar handle
-    let restOfFile = readSomeFileLazy handle (maxReadSize - 1)
-    (isEOF, nextChar) : restOfFile
-
-makeStringy :: [(IO Bool, IO Char)] -> IO String
-makeStringy [] = return ""
-
-makeStringy (x:xs) = do
-    isEOF <- fst x
-    if isEOF then
-        return ""
-    else do
-        nextChar <- snd x
-        theDeferredRest <- (unsafeInterleaveIO (makeStringy xs))
-        return (nextChar : theDeferredRest)
+printDisplayRows displayRows = if (last toPrint) == '\n' then init toPrint else toPrint
+    where
+        toPrint = foldl (++) "" (map getTexty2 displayRows)
 
 getTexty2 (DisplayRow _ _ text) = text
 

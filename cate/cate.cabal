@@ -16,8 +16,17 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Terminal
-  other-modules:       ANSICodes, ASCIICodes, DisplayText, Event, TerminalCharacterByteSize, TerminalCharacterWidth, TerminalSize, TerminalType
-  build-depends:       base >= 4.7 && < 5, unix, utf8-string
+  other-modules:       ANSICodes
+                     , ASCIICodes
+                     , DisplayText
+                     , Event
+                     , LazyFileRead
+                     , TerminalCharWidth
+                     , TerminalSize
+                     , TerminalType
+                     , UTF8CharByteSize
+                     , UTF8SafeByteJump
+  build-depends:       base >= 4.7 && < 5, unix, utf8-string, bytestring
   default-language:    Haskell2010
 
 executable cate-exe
@@ -31,9 +40,12 @@ executable cate-exe
 test-suite cate-test
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
-  main-is:             Spec.hs
+  main-is:             Test.hs
   build-depends:       base
                      , cate
+                     , tasty
+                     , tasty-hunit
+                     , tasty-quickcheck
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 

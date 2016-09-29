@@ -1,0 +1,17 @@
+learned: lazy io..., utf8 variable byte size, terminal char widths
+
+
+cursor left -- DONE
+
+cursor down -- DONE
+
+cursor up -- DONE
+
+fix newline last char -- DONE
+
+leftMarginOffset
+
+check character width, if 0 then we know its a combining character and can move accordingly?
+
+test
+
