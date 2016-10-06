@@ -71,7 +71,7 @@ displayTerminal :: Terminal -> IO [DisplayRow]
 displayTerminal (Terminal _ handle handlePosition leftMarginDisplayOffset) = do
     terminalWindowSize <- getTerminalWindowSize
     fileReadIn <- readFileLazy (LazyFileReadData handle handlePosition 32768 getUTF8CharByteSize)
-    let displayRows = take (height terminalWindowSize) (getDisplayRows (TextToDisplay fileReadIn handlePosition (toInteger (width terminalWindowSize)) getTerminalCharWidth getUTF8CharByteSize Wrap))
+    let displayRows = take (height terminalWindowSize) (getDisplayRows (TextToDisplay fileReadIn handlePosition (toInteger (width terminalWindowSize)) getTerminalCharWidth getUTF8CharByteSize (NoWrap leftMarginDisplayOffset)))
     -- remove last \n in display row
     putStr $ hideCursor ++ clearScreenCode ++ setCursorPositionCode (0, 0) ++
         printDisplayRows displayRows ++ showCursor

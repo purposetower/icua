@@ -19,12 +19,13 @@ import Data.Char (chr)
 bytesToString = map chr
 
 processEvent :: [Int] -> [DisplayRow] -> Terminal -> IO Terminal
-processEvent byteList displayRows terminal@(Terminal _ handle oldHandlePosition leftMarginDisplayOffset)
-    | input == cursorRight = return (terminal {handlePosition = oldHandlePosition + (getUTF8CharByteSize (head $ getTexty (head displayRows)))})
+processEvent byteList displayRows terminal@(Terminal inputBufferByteSize handle oldHandlePosition leftMarginDisplayOffset)
+
+    | input == cursorRight = return (Terminal inputBufferByteSize handle (oldHandlePosition + (getUTF8CharByteSize (head $ getTexty (head displayRows)))) (leftMarginDisplayOffset + 1))
     
     | input == cursorLeft = do
         newHandlePosition <- safeByteJump handle (oldHandlePosition - 1) Backward
-        return (terminal {handlePosition = newHandlePosition})
+        return (Terminal inputBufferByteSize handle newHandlePosition (leftMarginDisplayOffset - 1))
     
     | input == cursorDown = return (terminal {handlePosition = getStart $ last displayRows})
 

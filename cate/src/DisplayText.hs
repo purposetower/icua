@@ -2,6 +2,8 @@
 
 module DisplayText (getDisplayRows, TextToDisplay(..), WrapMode(..), DisplayRow(..)) where
 
+import Debug.Trace
+
 -- a single row of our display
 data DisplayRow = DisplayRow {
     start :: Integer, -- byte start position pointer of display section
@@ -84,12 +86,31 @@ getNextStartNoWrap :: String -- left over text
 -- ran out of text
 getNextStartNoWrap [] start _ _ = ([], start)
 
--- TODO leftMarginOffset
+
 getNextStartNoWrap (x:xs) start leftMarginOffset getCharBytesSize
-  | x == '\n' = (xs, newStart)
+  | x == '\n' = getNextStartNoWrapRemoveLeftMarginOffset xs newStart leftMarginOffset getCharBytesSize
 
   | otherwise = getNextStartNoWrap xs newStart leftMarginOffset getCharBytesSize
 
   where
     charBytesLength = getCharBytesSize x
     newStart = start + charBytesLength
+
+
+getNextStartNoWrapRemoveLeftMarginOffset :: String -- left over text
+             -> Integer -- byte start position
+             -> Integer -- left margin offset
+             -> (Char -> Integer) -- gets the number of bytes character uses
+             -> (String, Integer) -- (left over text, new byte start position)
+
+getNextStartNoWrapRemoveLeftMarginOffset [] start _ _ = ([], start)
+
+getNextStartNoWrapRemoveLeftMarginOffset leftOverText start 0 _ = (leftOverText, start)
+
+getNextStartNoWrapRemoveLeftMarginOffset (x:xs) start leftMarginOffset getCharBytesSize =
+  getNextStartNoWrapRemoveLeftMarginOffset xs newStart (leftMarginOffset - 1) getCharBytesSize
+  where
+    charBytesLength = getCharBytesSize x
+    newStart = start + charBytesLength
+
+
