@@ -9,7 +9,7 @@ cursor up -- DONE
 
 fix newline last char -- DONE
 
-leftMarginOffset
+leftMarginOffset -- DONE
 
 check character width, if 0 then we know its a combining character and can move accordingly?
 

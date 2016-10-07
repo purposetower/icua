@@ -46,7 +46,14 @@ getDisplayRows textToDisplay@(TextToDisplay text start maxWidth getCharWidth get
             case wrapMode of
                 Wrap -> (leftOverTextEnd, end) -- don't need to do anything for wrap mode :)
 
-                NoWrap leftMarginOffset -> getNextStartNoWrap leftOverTextEnd end leftMarginOffset getCharBytesSize
+                NoWrap leftMarginOffset -> 
+                    if last displayText == '\n' then
+                        -- remove left margin
+                        getNextStartNoWrapRemoveLeftMarginOffset leftOverTextEnd end leftMarginOffset getCharBytesSize
+                    else
+                        -- find new line then remove left margin
+                        getNextStartNoWrap leftOverTextEnd end leftMarginOffset getCharBytesSize
+                        -- TODO add getNextStartNoWrapRemoveLeftMarginOffset
 
         nextInputText = (TextToDisplay leftOverText nextStart maxWidth getCharWidth getCharBytesSize wrapMode)
 
@@ -88,6 +95,7 @@ getNextStartNoWrap [] start _ _ = ([], start)
 
 
 getNextStartNoWrap (x:xs) start leftMarginOffset getCharBytesSize
+    -- TODO dont call here
   | x == '\n' = getNextStartNoWrapRemoveLeftMarginOffset xs newStart leftMarginOffset getCharBytesSize
 
   | otherwise = getNextStartNoWrap xs newStart leftMarginOffset getCharBytesSize
@@ -104,6 +112,8 @@ getNextStartNoWrapRemoveLeftMarginOffset :: String -- left over text
              -> (String, Integer) -- (left over text, new byte start position)
 
 getNextStartNoWrapRemoveLeftMarginOffset [] start _ _ = ([], start)
+
+getNextStartNoWrapRemoveLeftMarginOffset ('\n':xs) start _ _ = (('\n':xs), start)
 
 getNextStartNoWrapRemoveLeftMarginOffset leftOverText start 0 _ = (leftOverText, start)
 

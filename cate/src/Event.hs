@@ -21,11 +21,19 @@ bytesToString = map chr
 processEvent :: [Int] -> [DisplayRow] -> Terminal -> IO Terminal
 processEvent byteList displayRows terminal@(Terminal inputBufferByteSize handle oldHandlePosition leftMarginDisplayOffset)
 
-    | input == cursorRight = return (Terminal inputBufferByteSize handle (oldHandlePosition + (getUTF8CharByteSize (head $ getTexty (head displayRows)))) (leftMarginDisplayOffset + 1))
+    | input == cursorRight =
+        -- TODO dont move handle postion when in no wrap mode, use left margin offset
+        -- nowrap mode
+        let nextChar = head $ getTexty $ head displayRows in
+        let newHandlePosition = if nextChar == '\n' then oldHandlePosition else oldHandlePosition + (getUTF8CharByteSize nextChar) in
+        return (Terminal inputBufferByteSize handle newHandlePosition (leftMarginDisplayOffset + 1))
+        -- wrap mode
+        --return (Terminal inputBufferByteSize handle (oldHandlePosition + (getUTF8CharByteSize nextChar)) (leftMarginDisplayOffset + 1))
     
     | input == cursorLeft = do
         newHandlePosition <- safeByteJump handle (oldHandlePosition - 1) Backward
-        return (Terminal inputBufferByteSize handle newHandlePosition (leftMarginDisplayOffset - 1))
+        let newLeftMarginDisplayOffset = if leftMarginDisplayOffset <= 0 then 0 else leftMarginDisplayOffset - 1
+        return (Terminal inputBufferByteSize handle newHandlePosition newLeftMarginDisplayOffset)
     
     | input == cursorDown = return (terminal {handlePosition = getStart $ last displayRows})
 
@@ -36,6 +44,7 @@ processEvent byteList displayRows terminal@(Terminal inputBufferByteSize handle 
     | otherwise = return terminal
     where
         input = bytesToString byteList
+        
 
 
 
