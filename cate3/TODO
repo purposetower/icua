@@ -1,0 +1,17 @@
+Create Editor/Open file, displayStartPosition -> Success | Error message $write$
+GetDisplaySections () -> Success [displaySection] | Error message $read,cache$
+
+MoveDisplayPosition moveAmount(1) -> Success | Error message $write$
+GetDisplayPosition () -> Success displayPosition | Error message $read,cache$
+
+Modification [range(1-3), value("aa"), ...] -> Success | Error message $write$ 
+Save () -> Success | Error message $write$
+
+
+CreateCursor [cursorStart(1), cursorEnd(2), ...] -> Success id | Error message $write$
+DeleteCursor [id(1), ...] -> Success | Error message $write$
+GetCursors () -> Success [id(1), cursorStart(1), cursorEnd(2), ...] | Error message $read,cache$
+
+AddAnnotation [range(1-3), value("aa"), ...] -> Success id | Error message $write$
+DeleteAnnotation [id(1), ...] -> Success | Error message $write$
+GetAnnotation () -> Success [id(1), range(1,3), value("aa"), ...] | Error message $read$,cache$

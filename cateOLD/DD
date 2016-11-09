@@ -1,0 +1,46 @@
+Cate
+
+Core:
+
+Open orig file and create a temp file: where? :(1)
+
+Read in buffer amount and write to temp file  :(2)
+
+Display buffer : wrap no wrap?  :(3)
+
+When loading buffer with content read from temp file: if there is no content then read it from original file and write it to temp file  :(4)
+
+Edit results in temp file write, dont edit buffer directly  :(5)
+
+---- alpha
+
+Extra:
+Replace old with new
+multi cursor
+unicode
+
+term dispaly
+hardcoded keys/handlers
+
+---- beta
+
+
+NonFunc:
+fast terminal display - use vector..?
+fast, huge files, simple, O(n), correct
+configurable keys/handlers
+plugable display, term and gui
+
+---- release
+
+--------------------------------------------------------
+
+Interface:
+
+Send all commands(eg edits, rename, highlight) as json
+Can receive commands(eg edits, rename, highlight) as json
+
+
+Services outside cate:
+
+history, search, replace, highlight, code intelligence, etc

@@ -1,0 +1,30 @@
+Goal: Simple editor which formats text for wrap/nowrap sized display with a fixed/unlimited size buffer. Can handle huge files and huge lines. Seeks around file.
+
+Has support for multiple cursors
+
+Has wrapper for terminal and gui mode, seperate out core into lib
+
+Interface through a event system which deals with everything else like search, highlighting, completion etc. Core events: Modification, Annotation, Move, Open, Close
+
+Annotations are added to a list which gets applied each time we render/display. This list is cleared on modification. These annotation are not crucial so its all async, fixed amount of time, can be stopped by user
+
+---------------------------------------------------------------------------------------------------
+
+BASIC
+
+1. Display wrap and no wrap --- DONE
+2. Move
+3. Modification
+4. Save
+
+---------------------------------------------------------------------------------------------------
+
+REFAC
+
+---------------------------------------------------------------------------------------------------
+
+EVENTS / ANNOTATIONS
+
+Synchronous: Modifications, Moves, Open, Close
+Asynchronous: Annotations
+
