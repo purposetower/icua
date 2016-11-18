@@ -15,7 +15,7 @@ import DisplayText (getDisplayText, WrapMode (Wrap, NoWrap))
 import TerminalRawMode (putTerminalInRawMode, resetTerminalFromRawMode)
 import FileReader (getContents)
 import TerminalANSICodes
-import KeyEvent (stopProcessing, processInput)
+import KeyEvent (stopProcessing, processInputWrap)
 
 
 main :: IO ()
@@ -41,7 +41,7 @@ loop handle handlePosition leftMarginDisplayOffset = do
     displaySize <- getDisplaySize
 
     putStr $ hideCursor ++ setCursorPositionCode (0, 0)
-    putStr $ getDisplayText contents displaySize (NoWrap leftMarginDisplayOffset) True
+    putStr $ getDisplayText contents displaySize (Wrap) True
     putStr showCursor
     hFlush stdout
 
@@ -58,7 +58,7 @@ loop handle handlePosition leftMarginDisplayOffset = do
             return ()
         else
             do
-                (newHandlePosition, newLeftMarginDisplayOffset) <-
-                    processInput inputString handle handlePosition leftMarginDisplayOffset
+                newHandlePosition <-
+                    processInputWrap inputString handle handlePosition
                     
-                loop handle newHandlePosition newLeftMarginDisplayOffset
+                loop handle newHandlePosition leftMarginDisplayOffset

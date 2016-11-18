@@ -1,6 +1,6 @@
 {-# LANGUAGE BangPatterns #-}
 
-module KeyEvent (stopProcessing, processInput) where
+module KeyEvent (stopProcessing, processInput, processInputWrap) where
 
 import System.IO (Handle)
 
@@ -30,11 +30,31 @@ processInput input handle handlePosition leftMarginDisplayOffset
     | otherwise = return (handlePosition, leftMarginDisplayOffset)
 
 
+processInputWrap :: String -> Handle -> Integer -> IO Integer
+processInputWrap input handle handlePosition
+
+    | input == cursorUp = do
+        newHandlePosition <- findPreviousLine handle handlePosition
+        return newHandlePosition
+
+    | input == cursorDown = do
+        newHandlePosition <- findNextLine handle handlePosition
+        return newHandlePosition
+
+    | otherwise = return handlePosition
+
+
 findNextLine :: Handle -> Integer -> IO Integer
 findNextLine handle handlePosition = do
     contents <- getContents handle handlePosition
     let !result = toInteger $ length (takeWhile (/= '\n') contents) + 1
     return $ result + handlePosition
+
+
+-- pass width
+--findNextLineWrap :: Handle -> Integer -> IO Integer
+--findNextLineWrap handle handlePosition = do
+--    contents <- getContents handle handlePosition
 
 
 defaultLookBack :: Integer
