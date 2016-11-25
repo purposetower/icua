@@ -1,4 +1,4 @@
-module LayoutText (layoutText, DisplaySize(..), WrapMode(..), PadMode(..)) where
+module LayoutText (layoutText, getLinesWrap, getLinesNoWrap, DisplaySize(..), WrapMode(..), PadMode(..)) where
 
 -- name clash
 import Prelude hiding (getLine)
@@ -18,20 +18,30 @@ data PadMode =
 
 -- | Layout the input text so that it fits onto our display
 layoutText :: String -> DisplaySize -> WrapMode -> PadMode -> String
-layoutText input (DisplaySize width height) wrapMode padMode
+layoutText input displaySize@(DisplaySize width height) wrapMode padMode
     | width <= 0 || height <= 0 = []
 
     | otherwise = result
     where
-        lines = take (fromIntegral height) $ case wrapMode of
-            Wrap -> getLines input width lineWrap
-            -- apply left margin to first line
-            NoWrap leftMargin -> getLines (dropTillNewLine leftMargin input) width (lineNoWrap leftMargin)
+        lines = case wrapMode of
+            Wrap -> getLinesWrap input displaySize
+            NoWrap leftMargin -> getLinesNoWrap input leftMargin displaySize
 
         result = case padMode of
             -- remove last new line or we will overflow display
             Pad -> init $ linesPad lines width height
             NoPad -> linesNoPad lines
+
+
+-- | Text we want to display when in wrap mode
+getLinesWrap :: String -> DisplaySize -> [String]
+getLinesWrap input (DisplaySize width height) = take (fromIntegral height) $ getLines input width lineWrap
+
+-- | Text we want to display when in no wrap mode
+getLinesNoWrap :: String -> Integer -> DisplaySize -> [String]
+getLinesNoWrap input leftMargin (DisplaySize width height) = take (fromIntegral height) $
+    -- apply left margin to first line
+    getLines (dropTillNewLine leftMargin input) width (lineNoWrap leftMargin)
 
 
 getLines :: String -> Integer -> (String -> String -> String) -> [String]
