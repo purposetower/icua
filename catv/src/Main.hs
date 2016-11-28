@@ -36,9 +36,10 @@ loop :: Handle -> Integer -> Integer -> IO ()
 loop handle handlePosition leftMargin = do
     displaySize <- getDisplaySize
     contents <- getContents handle handlePosition
+    let wrapMode = (NoWrap leftMargin)
 
     putStr $ hideCursor ++ setCursorPositionCode (0, 0)
-    putStr $ layoutText contents displaySize (NoWrap leftMargin) Pad
+    putStr $ layoutText contents displaySize wrapMode Pad
     putStr showCursor
     hFlush stdout
 
@@ -56,5 +57,5 @@ loop handle handlePosition leftMargin = do
         else
             do
                 (newHandlePosition, newLeftMargin)
-                    <- processInput inputString displaySize handle handlePosition (NoWrap leftMargin)
+                    <- processInput inputString displaySize handle handlePosition wrapMode
                 loop handle newHandlePosition newLeftMargin

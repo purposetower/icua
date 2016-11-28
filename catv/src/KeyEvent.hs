@@ -21,9 +21,16 @@ processInput input displaySize handle handlePosition wrapMode = case wrapMode of
 
 
 processInputWrap :: String -> DisplaySize -> Handle -> Integer -> Integer -> IO (Integer, Integer)
-processInputWrap input displaySize handle handlePosition leftMargin
-    | input == cursorUp = return (handlePosition, leftMargin)
-    | input == cursorDown = return (handlePosition, leftMargin)
+processInputWrap input displaySize@(DisplaySize width height) handle handlePosition leftMargin
+    | input == cursorUp = do
+        previousLineOffset <- findPreviousLine handle handlePosition
+        return (if previousLineOffset < width then handlePosition - previousLineOffset else handlePosition - width,
+            leftMargin)
+    
+    | input == cursorDown = do
+        contents <- getContents handle handlePosition
+        let !endOfNextLine = toInteger $ length $ head $ getLinesWrap contents displaySize
+        return (handlePosition + endOfNextLine, leftMargin)
 
     | otherwise = return (handlePosition, leftMargin)
 
@@ -39,8 +46,8 @@ processInputNoWrap input displaySize@(DisplaySize width height) handle handlePos
         return (handlePosition, if maxLineLength >= width then leftMargin + 1 else leftMargin)
 
     | input == cursorUp = do
-        newHandlePosition <- findPreviousLine handle handlePosition
-        return (newHandlePosition, leftMargin)
+        previousLineOffset <- findPreviousLine handle handlePosition
+        return (handlePosition - previousLineOffset, leftMargin)
 
     | input == cursorDown = do
         contents <- getContents handle handlePosition
@@ -59,7 +66,7 @@ findPreviousLine handle handlePosition = do
     let lookBack = if handlePosition - defaultLookBack > 0 then defaultLookBack else handlePosition
     contents <- getContents handle (handlePosition - lookBack)
     let !result = findPreviousLineNoWrap $ reverse $ take ((fromIntegral lookBack) - 1) $ contents
-    return $ handlePosition - result
+    return result
 
 findPreviousLineNoWrap :: String -> Integer
 findPreviousLineNoWrap "" = 0
