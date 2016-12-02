@@ -9,6 +9,7 @@ executable catv
   default-language:    Haskell2010
   build-depends:       base, unix
   other-modules:       LayoutText, TerminalSize, KeyEvent, TerminalANSICodes, TerminalRawMode, FileReader
+  ghc-options:         -W
 
 test-suite cate-test
   type:                exitcode-stdio-1.0

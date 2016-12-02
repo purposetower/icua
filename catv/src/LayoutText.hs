@@ -71,7 +71,7 @@ getLine (x:xs) width
 -------------------------------------------------------------------------------
 
 lineWrap :: String -> String -> String
-lineWrap line leftOverInput = leftOverInput -- don't do anything
+lineWrap _ leftOverInput = leftOverInput -- don't do anything
 
 lineNoWrap :: Integer -> String -> String -> String
 lineNoWrap leftMargin line leftOverInput =
@@ -96,7 +96,7 @@ dropTillNewLine amount input@(x:xs)
 removeUpToNewLine :: String -> String
 removeUpToNewLine [] = []
 removeUpToNewLine ('\n' : xs) = xs
-removeUpToNewLine (x:xs) = removeUpToNewLine xs
+removeUpToNewLine (_:xs) = removeUpToNewLine xs
 
 -------------------------------------------------------------------------------
 -- Line padding
@@ -109,7 +109,7 @@ linesPad [] _ 0 = []
 -- add an empty line
 linesPad [] width height = padding width ++ linesPad [] width (height - 1)
 -- add an empty line
-linesPad ([]:xs) width height = padding width ++ linesPad [] width (height - 1)
+linesPad ([]:_) width height = padding width ++ linesPad [] width (height - 1)
 
 linesPad (x:xs) width height =
     xWithoutNewLine ++ padding paddingAmount ++ linesPad xs width (height - 1)

@@ -8,8 +8,6 @@ import Foreign (allocaArray, peekArray)
 import System.Posix.IO (fdReadBuf, stdInput)
 import Data.Char (chr)
 
-import Prelude hiding (getContents)
-
 import LayoutText
 import TerminalSize
 import KeyEvent
@@ -35,8 +33,8 @@ defaultInputBufferByteSize = 1024
 loop :: Handle -> Integer -> Integer -> IO ()
 loop handle handlePosition leftMargin = do
     displaySize <- getDisplaySize
-    contents <- getContents handle handlePosition
-    let wrapMode = (NoWrap leftMargin)
+    contents <- getFileContents handle handlePosition
+    let wrapMode = (Wrap)
 
     putStr $ hideCursor ++ setCursorPositionCode (0, 0)
     putStr $ layoutText contents displaySize wrapMode Pad

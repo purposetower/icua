@@ -1,19 +1,17 @@
-module FileReader (getContents) where
-
-import Prelude hiding (getContents)
+module FileReader (getFileContents) where
 
 import System.IO (Handle, hSeek, SeekMode (AbsoluteSeek), hIsEOF, hGetChar)
 import System.IO.Unsafe (unsafeInterleaveIO)
 
 
-getContents :: Handle -> Integer -> IO String
-getContents handle handlePosition = do
+getFileContents :: Handle -> Integer -> IO String
+getFileContents handle handlePosition = do
     hSeek handle AbsoluteSeek handlePosition
-    getContentsAcc handle
+    getFileContentsAcc handle
 
 
-getContentsAcc :: Handle -> IO String
-getContentsAcc handle = do
+getFileContentsAcc :: Handle -> IO String
+getFileContentsAcc handle = do
     isEOF <- hIsEOF handle
     if isEOF then
         return []
@@ -21,5 +19,5 @@ getContentsAcc handle = do
         do
             nextChar <- hGetChar handle
             -- we need unsafeInterleaveIO otherwise whole file is read!
-            theDeferredRest <- unsafeInterleaveIO $ getContentsAcc handle
+            theDeferredRest <- unsafeInterleaveIO $ getFileContentsAcc handle
             return (nextChar : theDeferredRest)
