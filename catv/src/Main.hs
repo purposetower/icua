@@ -33,8 +33,8 @@ defaultInputBufferByteSize = 1024
 loop :: Handle -> Integer -> Integer -> IO ()
 loop handle handlePosition leftMargin = do
     displaySize <- getDisplaySize
-    contents <- getFileContents handle handlePosition
-    let wrapMode = (Wrap)
+    contents <- fmap getReadContent $ getFileContent handle handlePosition (MaxRead 200000)
+    let wrapMode = (NoWrap leftMargin)
 
     putStr $ hideCursor ++ setCursorPositionCode (0, 0)
     putStr $ layoutText contents displaySize wrapMode Pad

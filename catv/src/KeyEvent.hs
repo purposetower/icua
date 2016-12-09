@@ -30,7 +30,7 @@ processInputWrap input displaySize@(DisplaySize width height) handle handlePosit
     
     -- find the next new line, if it's less than width go to that otherwise jump forward width
     | input == cursorDown = do
-        contents <- getFileContents handle handlePosition
+        contents <- fmap getReadContent $ getFileContent handle handlePosition FullRead
         -- check we haven't reached the end of the file
         let numberOfLinesLeft = toInteger $ length $ getLinesWrap contents displaySize
         if height > numberOfLinesLeft
@@ -54,10 +54,11 @@ processInputNoWrap input displaySize@(DisplaySize width height) handle handlePos
 
     -- move left margin right
     | input == cursorRight = do
-        contents <- getFileContents handle handlePosition
         -- get the max line length, stop user from moving right if there is no more content to show
-        -- + 2 to leftMargin as we are testing next positiong and we ignore last new line
-        let !maxLineLength = toInteger $ maximum $ map length $ getLinesNoWrap contents (leftMargin + 2) displaySize
+        contents <- fmap getReadContent $ getFileContent handle handlePosition
+            (MaxRead ((width + 1 + leftMargin) * height))
+        -- + 1 to leftMargin as we are testing next positiong
+        let !maxLineLength = toInteger $ maximum $ map length $ getLinesNoWrap contents (leftMargin + 1) displaySize
         return (handlePosition, if maxLineLength >= width then leftMargin + 1 else leftMargin)
 
     -- find the previous new line and go to that
@@ -68,7 +69,7 @@ processInputNoWrap input displaySize@(DisplaySize width height) handle handlePos
 
     -- find the next new line and go to that
     | input == cursorDown = do
-        contents <- getFileContents handle handlePosition
+        contents <- fmap getReadContent $ getFileContent handle handlePosition FullRead
         -- check we haven't reached the end of the file
         let numberOfLinesLeft = toInteger $ length $ getLinesNoWrap contents leftMargin displaySize
         if height > numberOfLinesLeft
@@ -89,7 +90,7 @@ defaultLookBack = 150
 findPreviousLine :: Handle -> Integer -> IO Integer
 findPreviousLine handle handlePosition = do
     let lookBack = if handlePosition - defaultLookBack > 0 then defaultLookBack else handlePosition
-    contents <- getFileContents handle (handlePosition - lookBack)
+    contents <- fmap getReadContent $ getFileContent handle (handlePosition - lookBack) FullRead
     let reversedContent = reverse $ take (fromIntegral (lookBack - 1)) contents
     let !offset = nextNewLineOffset reversedContent
     return offset
@@ -97,7 +98,7 @@ findPreviousLine handle handlePosition = do
 
 findNextLine :: Handle -> Integer -> IO Integer
 findNextLine handle handlePosition = do
-    contents <- getFileContents handle handlePosition
+    contents <- fmap getReadContent $ getFileContent handle handlePosition FullRead
     let !offset = nextNewLineOffset contents
     return offset
 
