@@ -24,16 +24,16 @@ main = do
 
     -- the main loop!
     -- make sure we always restore terminal from raw mode
-    finally (loop handle 0 0) (resetTerminalFromRawMode originalTerminalAttributes)
+    finally (loop handle 0 0 []) (resetTerminalFromRawMode originalTerminalAttributes)
 
 
 defaultInputBufferByteSize :: Int
 defaultInputBufferByteSize = 1024
 
-loop :: Handle -> Integer -> Integer -> IO ()
-loop handle handlePosition leftMargin = do
+loop :: Handle -> Integer -> Integer -> PieceTable -> IO ()
+loop handle handlePosition leftMargin pieceTable = do
     displaySize <- getDisplaySize
-    contents <- fmap getReadContent $ getFileContent handle handlePosition (MaxRead 200000)
+    contents <- fmap getReadContent $ getFileContent handle handlePosition pieceTable (MaxRead 200000)
     let wrapMode = (NoWrap leftMargin)
 
     putStr $ hideCursor ++ setCursorPositionCode (0, 0)
@@ -54,6 +54,6 @@ loop handle handlePosition leftMargin = do
             return ()
         else
             do
-                (newHandlePosition, newLeftMargin)
-                    <- processInput inputString displaySize handle handlePosition wrapMode
-                loop handle newHandlePosition newLeftMargin
+                (newHandlePosition, newLeftMargin, newPieceTable)
+                    <- processInput inputString displaySize handle handlePosition pieceTable wrapMode
+                loop handle newHandlePosition newLeftMargin newPieceTable
