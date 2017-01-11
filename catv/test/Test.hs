@@ -1,5 +1,5 @@
 import Test.Tasty
 
-import qualified LayoutTextTest
+import qualified Core.LayoutTextTest
 
-main = defaultMain (testGroup "Tests" [LayoutTextTest.testSuite])
+main = defaultMain (testGroup "Tests" [Core.LayoutTextTest.testSuite])

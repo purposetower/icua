@@ -1,6 +1,6 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 
-module FileReader (getFileContent, ReadAmount(..), ReadContent(..), getReadContent,
+module Core.FileReader (getFileContent, ReadAmount(..), ReadContent(..), getReadContent,
     PieceTable, PieceTableItem(..)) where
 
 import System.IO (Handle, hSeek, SeekMode (AbsoluteSeek), hIsEOF, hGetChar)

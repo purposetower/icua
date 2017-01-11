@@ -1,4 +1,4 @@
-module TerminalRawMode (putTerminalInRawMode, resetTerminalFromRawMode) where
+module UI.Terminal.TerminalRawMode (putTerminalInRawMode, resetTerminalFromRawMode) where
 
 import System.Posix.IO (stdInput, stdOutput)
 import System.Posix.Terminal (TerminalAttributes, TerminalMode (EnableEcho, ExtendedFunctions,

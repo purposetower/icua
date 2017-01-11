@@ -1,4 +1,4 @@
-module TerminalANSICodes (setCursorPositionCode, hideCursor, showCursor, cursorUp, cursorDown,
+module UI.Terminal.TerminalANSICodes (setCursorPositionCode, hideCursor, showCursor, cursorUp, cursorDown,
     cursorRight, cursorLeft) where
 
 -- ANSI escape codes, "\ESC[" + numbers seperated by semicolons + some string

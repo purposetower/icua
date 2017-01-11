@@ -1,11 +1,11 @@
-module TerminalSize (getDisplaySize) where
+module UI.Terminal.TerminalSize (getDisplaySize) where
 
 import Foreign
 import Foreign.C.Types
 import System.Posix.Types (Fd(Fd))
 import System.Posix.IO (stdOutput)
 
-import LayoutText (DisplaySize(..))
+import Core.Types.DisplaySize
 
 #include <sys/ioctl.h>
 #include <unistd.h>

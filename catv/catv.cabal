@@ -8,7 +8,14 @@ executable catv
   main-is:             Main.hs
   default-language:    Haskell2010
   build-depends:       base, unix
-  other-modules:       LayoutText, TerminalSize, KeyEvent, TerminalANSICodes, TerminalRawMode, FileReader
+  other-modules:       Core.Types.DisplaySize
+                       Core.LayoutText
+                       Core.FileReader
+                       Plugins.Key.KeyEvent
+                       Plugins.Display.PadText
+                       UI.Terminal.TerminalRawMode
+                       UI.Terminal.TerminalSize
+                       UI.Terminal.TerminalANSICodes
   ghc-options:         -W
 
 test-suite cate-test

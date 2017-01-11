@@ -1,0 +1,31 @@
+- Plugins are synchronous where user sets plugin order and max response time :D
+- Event/Key handling is treated as a plugin
+
+
+EditorState {
+  fileName
+  displaySize
+  handlePosition
+  leftMargin
+  pieceTable
+  cursors
+
+  DISPLAY
+
+  CUSTOM STATES
+}
+
+
+- We register state listeners, updates are asynchronous on all states except DISPLAY
+
+- The DISPLAY state is synchronous, user sets plugin order and max response time :D
+
+
+API
+OPEN file
+MOVE handlePosition
+MOVE leftMargin
+ADD/REMOVE/GET pieceTable
+ADD/REMOVE cursors
+
+

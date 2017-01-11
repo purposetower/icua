@@ -1,32 +1,27 @@
 {-# LANGUAGE BangPatterns #-}
 
-module KeyEvent (stopProcessing, processInput) where
+module Plugins.Key.KeyEvent (stopProcessing, processInputWrap, processInputNoWrap) where
 
 import System.IO (Handle, hFileSize)
 
-import LayoutText
-import TerminalANSICodes
-import FileReader
+import Core.Types.DisplaySize
+import Core.LayoutText
+import UI.Terminal.TerminalANSICodes
+import Core.FileReader
 
 stopProcessing :: String -> Bool
 stopProcessing input = input == ['\ESC']
 
 
-processInput :: String -> DisplaySize -> Handle -> Integer -> PieceTable -> WrapMode -> IO (Integer, Integer, PieceTable)
-processInput input displaySize handle handlePosition pieceTable wrapMode = case wrapMode of
-    Wrap -> processInputWrap input displaySize handle handlePosition 0 pieceTable
-    NoWrap leftMargin -> processInputNoWrap input displaySize handle handlePosition leftMargin pieceTable
-
-
-processInputWrap :: String -> DisplaySize -> Handle -> Integer -> Integer -> PieceTable -> IO (Integer, Integer, PieceTable)
-processInputWrap input displaySize@(DisplaySize width height) handle handlePosition leftMargin pieceTable
+processInputWrap :: String -> DisplaySize -> Handle -> Integer -> PieceTable -> IO (Integer, PieceTable)
+processInputWrap input displaySize@(DisplaySize width height) handle handlePosition pieceTable
     -- find the previous new line, if it's less than width go to that otherwise jump back width
     | input == cursorUp = do
         offset <- findPreviousLine handle handlePosition pieceTable
         newHandlePosition <- if offset < width
             then handlePositionBoundary handle (handlePosition - offset)
             else handlePositionBoundary handle (handlePosition - width)
-        return (newHandlePosition, leftMargin, pieceTable)
+        return (newHandlePosition, pieceTable)
     
     -- find the next new line, if it's less than width go to that otherwise jump forward width
     | input == cursorDown = do
@@ -35,16 +30,16 @@ processInputWrap input displaySize@(DisplaySize width height) handle handlePosit
         let numberOfLinesLeft = toInteger $ length $ getLinesWrap contents displaySize
         if height > numberOfLinesLeft
             then
-                return (handlePosition, leftMargin, pieceTable)
+                return (handlePosition, pieceTable)
             else
                 do
                     offset <- findNextLine handle handlePosition pieceTable
                     newHandlePosition <- if offset < width
                         then handlePositionBoundary handle (handlePosition + offset)
                         else handlePositionBoundary handle (handlePosition + width)
-                    return (newHandlePosition, leftMargin, pieceTable)
+                    return (newHandlePosition, pieceTable)
 
-    | otherwise = return (handlePosition, leftMargin, pieceTable)
+    | otherwise = return (handlePosition, pieceTable)
 
 
 processInputNoWrap :: String -> DisplaySize -> Handle -> Integer -> Integer -> PieceTable -> IO (Integer, Integer, PieceTable)

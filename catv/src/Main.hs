@@ -8,12 +8,13 @@ import Foreign (allocaArray, peekArray)
 import System.Posix.IO (fdReadBuf, stdInput)
 import Data.Char (chr)
 
-import LayoutText
-import TerminalSize
-import KeyEvent
-import TerminalANSICodes
-import TerminalRawMode
-import FileReader
+import Core.LayoutText
+import UI.Terminal.TerminalSize
+import Plugins.Key.KeyEvent
+import Plugins.Display.PadText
+import UI.Terminal.TerminalANSICodes
+import UI.Terminal.TerminalRawMode
+import Core.FileReader
 
 main :: IO ()
 main = do
@@ -34,10 +35,9 @@ loop :: Handle -> Integer -> Integer -> PieceTable -> IO ()
 loop handle handlePosition leftMargin pieceTable = do
     displaySize <- getDisplaySize
     contents <- fmap getReadContent $ getFileContent handle handlePosition pieceTable (MaxRead 200000)
-    let wrapMode = (NoWrap leftMargin)
 
     putStr $ hideCursor ++ setCursorPositionCode (0, 0)
-    putStr $ layoutText contents displaySize wrapMode Pad
+    putStr $ foldl1 (\x y -> x ++ "\n" ++ y) $ linesPad (getLinesNoWrap contents leftMargin displaySize) displaySize
     putStr showCursor
     hFlush stdout
 
@@ -55,5 +55,5 @@ loop handle handlePosition leftMargin pieceTable = do
         else
             do
                 (newHandlePosition, newLeftMargin, newPieceTable)
-                    <- processInput inputString displaySize handle handlePosition pieceTable wrapMode
+                    <- processInputNoWrap inputString displaySize handle handlePosition leftMargin pieceTable
                 loop handle newHandlePosition newLeftMargin newPieceTable
