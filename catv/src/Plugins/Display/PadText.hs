@@ -2,6 +2,7 @@ module Plugins.Display.PadText(linesPad) where
 
 import Core.Types.DisplaySize
 
+
 -- Add padding the every line
 linesPad :: [String] -> DisplaySize -> [String]
 linesPad [] (DisplaySize _ 0) = []

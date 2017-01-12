@@ -10,6 +10,7 @@ import Core.Types.DisplaySize
 getLinesWrap :: String -> DisplaySize -> [String]
 getLinesWrap input (DisplaySize width height) = take (fromIntegral height) $ getLines input width lineWrap
 
+
 -- | Text we want to display when in no wrap mode
 getLinesNoWrap :: String -> Integer -> DisplaySize -> [String]
 getLinesNoWrap input leftMargin (DisplaySize width height) = take (fromIntegral height) $
@@ -48,6 +49,7 @@ getLine (x:xs) width
 lineWrap :: String -> String -> String
 lineWrap _ leftOverInput = leftOverInput -- don't do anything
 
+
 lineNoWrap :: Integer -> String -> String -> String
 lineNoWrap leftMargin line leftOverInput =
     -- apply left margin, ignoring characters past left of display
@@ -71,6 +73,7 @@ dropLastNewLine [] = []
 
 dropLastNewLine input = if last input == '\n' then init input else input
 
+
 dropTillNewLine :: Integer -> String -> String
 dropTillNewLine _ [] = []
 
@@ -78,6 +81,7 @@ dropTillNewLine amount input@(x:xs)
     | amount <= 0 = input
     | x == '\n' = input
     | otherwise = dropTillNewLine (amount - 1) xs
+
 
 removeUpToNewLine :: String -> String
 removeUpToNewLine [] = []

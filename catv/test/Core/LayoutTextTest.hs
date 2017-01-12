@@ -4,13 +4,13 @@ import Test.Tasty
 import qualified Test.Tasty.QuickCheck as QC
 import qualified Test.Tasty.HUnit as HU
 
-import Data.List.Split (splitOn)
-
 import Core.Types.DisplaySize
 import Core.LayoutText
 
+
 testSuite = testGroup "LayoutTextTest" [unitTestsWrap, unitTestsNoWrap, quickCheckPropertiesWrap,
     quickCheckPropertiesNoWrap]
+
 
 unitTestsWrap = testGroup "UnitTests Wrap"
     [
@@ -36,6 +36,7 @@ unitTestsWrap = testGroup "UnitTests Wrap"
     -- truncate height
     HU.testCase "Truncate height" $ getLinesWrap "123456789" (DisplaySize 1 4) HU.@?= ["1", "2", "3", "4"]
     ]
+
 
 unitTestsNoWrap = testGroup "UnitTests No Wrap"
     [
@@ -67,60 +68,46 @@ unitTestsNoWrap = testGroup "UnitTests No Wrap"
     HU.testCase "Left margin and truncate width" $ getLinesNoWrap "hello" 1 (DisplaySize 3 10) HU.@?= ["ell"]
     ]
 
+
 quickCheckPropertiesWrap = localOption (QC.QuickCheckTests 100000) $ testGroup "QuickCheck Wrap"
     [
-    QC.testProperty "Max length of each line is width" $ maxLengthOfLinesWrap,
-    QC.testProperty "Max number of lines is height" $ maxNumberOfLinesWrap,
-    QC.testProperty "Calling getLinesWrap on result is idempotent" $ callOnResultIsIdempotentWrap
+    QC.testProperty "Max length of each line is width" $ qcWrap maxLengthOfLines,
+    QC.testProperty "Max number of lines is height" $ qcWrap maxNumberOfLines,
+    QC.testProperty "Calling getLinesWrap on result is idempotent" $ qcWrap callOnResultIsIdempotent
     ]
+
 
 quickCheckPropertiesNoWrap = localOption (QC.QuickCheckTests 100000) $ testGroup "QuickCheck NoWrap"
     [
-    QC.testProperty "Max length of each line is width" $ maxLengthOfLinesNoWrap,
-    QC.testProperty "Max number of lines is height" $ maxNumberOfLinesNoWrap,
-    QC.testProperty "Calling getLinesNoWrap on result is idempotent" $ callOnResultIsIdempotentNoWrap
+    QC.testProperty "Max length of each line is width" $ qcNoWrap maxLengthOfLines,
+    QC.testProperty "Max number of lines is height" $ qcNoWrap maxNumberOfLines,
+    QC.testProperty "Calling getLinesNoWrap on result is idempotent" $ qcNoWrap0LeftMargin callOnResultIsIdempotent
     ]
 
 
-maxLengthOfLinesWrap :: String -> QC.NonNegative Integer -> QC.NonNegative Integer -> Bool
-maxLengthOfLinesWrap input (QC.NonNegative width) (QC.NonNegative height) =
-    null $ filter (> width) $ map (toInteger . length) $ getLinesWrap input (DisplaySize width height)
+qcWrap someFunc = someFunc getLinesWrap
+qcNoWrap someFunc (QC.NonNegative leftMargin) = someFunc (\input -> getLinesNoWrap input leftMargin)
+qcNoWrap0LeftMargin someFunc = someFunc (\input -> getLinesNoWrap input 0)
 
-maxLengthOfLinesNoWrap :: String -> QC.NonNegative Integer -> QC.NonNegative Integer -> QC.NonNegative Integer -> Bool
-maxLengthOfLinesNoWrap input (QC.NonNegative leftMargin) (QC.NonNegative width) (QC.NonNegative height) =
-    null $ filter (> width) $ map (toInteger . length) $ getLinesNoWrap input leftMargin (DisplaySize width height)
 
-maxNumberOfLinesWrap :: String -> QC.NonNegative Integer -> QC.NonNegative Integer -> Bool
-maxNumberOfLinesWrap input (QC.NonNegative width) (QC.NonNegative height) =
-    (toInteger $ length $ getLinesWrap input (DisplaySize width height)) <= height
+maxLengthOfLines :: (String -> DisplaySize -> [String]) -> String -> QC.NonNegative Integer -> QC.NonNegative Integer -> Bool
+maxLengthOfLines getLinesFunc input (QC.NonNegative width) (QC.NonNegative height) =
+    null $ filter (> width) $ map (toInteger . length) $ getLinesFunc input (DisplaySize width height)
 
-maxNumberOfLinesNoWrap :: String -> QC.NonNegative Integer -> QC.NonNegative Integer -> QC.NonNegative Integer -> Bool
-maxNumberOfLinesNoWrap input (QC.NonNegative leftMargin) (QC.NonNegative width) (QC.NonNegative height) =
-    (toInteger $ length $ getLinesNoWrap input leftMargin (DisplaySize width height)) <= height
 
-callOnResultIsIdempotentWrap :: String -> QC.NonNegative Integer -> QC.NonNegative Integer -> Bool
-callOnResultIsIdempotentWrap input (QC.NonNegative width) (QC.NonNegative height) =
+maxNumberOfLines :: (String -> DisplaySize -> [String]) -> String -> QC.NonNegative Integer -> QC.NonNegative Integer -> Bool
+maxNumberOfLines getLinesFunc input (QC.NonNegative width) (QC.NonNegative height) =
+    (toInteger $ length $ getLinesFunc input (DisplaySize width height)) <= height
+
+
+callOnResultIsIdempotent :: (String -> DisplaySize -> [String])-> String -> QC.NonNegative Integer -> QC.NonNegative Integer -> Bool
+callOnResultIsIdempotent getLinesFunc input (QC.NonNegative width) (QC.NonNegative height) =
     -- ignore empty results
     if foldl (++) "" previousCall == ""
         then True
-        else getLinesWrap previousCallJoined (DisplaySize width height) == previousCall
+        else getLinesFunc previousCallJoined (DisplaySize width height) == previousCall
     where
-        previousCall = getLinesWrap input (DisplaySize width height)
-        previousCallJoined = case previousCall of
-            [] -> []
-            -- add extra newline sigh
-            _ -> (foldl1 (\x y -> x ++ "\n" ++ y) previousCall) ++ "\n"
-
-callOnResultIsIdempotentNoWrap :: String -> QC.NonNegative Integer -> QC.NonNegative Integer -> Bool
-callOnResultIsIdempotentNoWrap input (QC.NonNegative width) (QC.NonNegative height) =
-    -- ignore empty results
-    if foldl (++) "" previousCall == ""
-        then True
-        -- leftMargin must be 0
-        else getLinesNoWrap previousCallJoined 0 (DisplaySize width height) == previousCall
-    where
-        -- leftMargin must be 0
-        previousCall = getLinesNoWrap input 0 (DisplaySize width height)
+        previousCall = getLinesFunc input (DisplaySize width height)
         previousCallJoined = case previousCall of
             [] -> []
             -- add extra newline sigh
