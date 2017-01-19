@@ -7,7 +7,7 @@ executable catv
   hs-source-dirs:      src
   main-is:             Main.hs
   default-language:    Haskell2010
-  build-depends:       base, unix
+  build-depends:       base, unix, network, aeson
   other-modules:       Core.Types.DisplaySize
                        Core.LayoutText
                        Core.FileReader

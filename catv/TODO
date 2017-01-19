@@ -1,3 +1,9 @@
+
+IPC
+
+
+===================================================================================
+
 - Plugins are synchronous where user sets plugin order and max response time :D
 - Event/Key handling is treated as a plugin
 
@@ -27,5 +33,65 @@ MOVE handlePosition
 MOVE leftMargin
 ADD/REMOVE/GET pieceTable
 ADD/REMOVE cursors
+
+
+Plugin PieceTable: Start and End positions data or file url
+
+
+
+DISPLAY Plugins:
+Initiator -> p1 -> p2 -> p3 -> p4
+
+Plugin duties:
+1. Receive a START message with global state <-- will point to correct file_url/plugin
+2. Receive a CALC_REQUEST with pos, max time and file_url/plugin
+3. Send output to Initiator
+
+
+Intiator duties:
+1. Send a START message to all plugins
+2. Send a CALC_REQUEST to plugin_X
+3. Receive output from plugin_X
+4. Repeat action: 2 plugin_X+1
+
+* if Receive output takes too long, move on to next plugin
+
+* The output is a string
+
+* Each plugin decides on its layout algo, eg different plugin could be: syntax_highlighter_no_wrap or syntax_highlighter_wrap etc
+
+
+* Streaming....??? <- makes things too complicated...?
+** Optimisation: intiator tells plugins dependent on plugin if a calc is happening
+
+----------------------
+
+All plugins: display is a message type, we can have a autocomplete type or key_event etc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

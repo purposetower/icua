@@ -16,6 +16,9 @@ import UI.Terminal.TerminalANSICodes
 import UI.Terminal.TerminalRawMode
 import Core.FileReader
 
+import Network
+import System.IO (hSetBuffering, BufferMode(..), hGetLine, hPutStrLn)
+
 main :: IO ()
 main = do
     args <- getArgs
@@ -23,10 +26,11 @@ main = do
     handle <- openFile filePath ReadMode
     originalTerminalAttributes <- putTerminalInRawMode
 
+    --clientHandle <- connectTo "localhost" $ PortNumber 5555
+
     -- the main loop!
     -- make sure we always restore terminal from raw mode
     finally (loop handle 0 0 []) (resetTerminalFromRawMode originalTerminalAttributes)
-
 
 defaultInputBufferByteSize :: Int
 defaultInputBufferByteSize = 1024
@@ -36,8 +40,16 @@ loop handle handlePosition leftMargin pieceTable = do
     displaySize <- getDisplaySize
     contents <- fmap getReadContent $ getFileContent handle handlePosition pieceTable (MaxRead 200000)
 
+    let lines = getLinesNoWrap contents leftMargin displaySize
+
+    -- apply plugins
+    --hPutStrLn clientHandle $ foldl1 (\x y -> x ++ "\n" ++ y) lines
+    --newOutput <- hGetLine clientHandle
+
+
     putStr $ hideCursor ++ setCursorPositionCode (0, 0)
-    putStr $ foldl1 (\x y -> x ++ "\n" ++ y) $ linesPad (getLinesNoWrap contents leftMargin displaySize) displaySize
+    putStr $ foldl1 (\x y -> x ++ "\n" ++ y) $ linesPad lines displaySize
+    --putStrLn newOutput
     putStr showCursor
     hFlush stdout
 
